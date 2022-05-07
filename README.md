@@ -29,3 +29,4 @@ Tools, frameworks:
 13. npx tailwindcss init -p
 14. Change some file like instruction in above website
 15. npm install ethers
+16. Test rename repo
