@@ -1,4 +1,4 @@
-# KickStarter
+# CrowdFunding
 
 This project to create a crowdfunding website, where entrepreneurs can post their campaigns and consumers can invest.
 
