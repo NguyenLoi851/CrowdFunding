@@ -1,0 +1,31 @@
+{
+  "address": "0x2AEf6Ac66D0888A7dEE93FaC6ab9dD14bA957C5a",
+  "abi": [
+    {
+      "type": "function",
+      "name": "createCampaign",
+      "constant": false,
+      "payable": false,
+      "inputs": [{ "type": "uint256", "name": "minimum" }],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "deployedCampaigns",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [{ "type": "uint256" }],
+      "outputs": [{ "type": "address" }]
+    },
+    {
+      "type": "function",
+      "name": "getDeployedCampaigns",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [{ "type": "address[]" }]
+    }
+  ]
+}

@@ -3,22 +3,28 @@ const { ethers, waffle } = require("hardhat");
 const { describe } = require("mocha");
 const assert = require("assert");
 
+const compiledCampaign = require('../artifacts/contracts/Campaign.sol/Campaign.json');
+
 const utils = ethers.utils;
 
 describe("Test Campaign contracts", function () {
-  let Campaign;
+  // let Campaign;
   let CampaignFactory;
   let campaign;
   let campaignFactory;
   beforeEach(async function () {
     accounts = await ethers.getSigners();
     owner = accounts[0];
-    Campaign = await ethers.getContractFactory("Campaign");
     CampaignFactory = await ethers.getContractFactory("CampaignFactory");
-    campaign = await Campaign.deploy(5, owner.address);
     campaignFactory = await CampaignFactory.deploy();
-    await campaign.deployed();
     await campaignFactory.deployed();
+
+    await campaignFactory.connect(owner).createCampaign(5);
+    deployedCampaigns = await campaignFactory.getDeployedCampaigns();
+    campaignAddress = deployedCampaigns[0];
+
+    campaign = await new ethers.Contract(campaignAddress, compiledCampaign.abi, owner);
+
   });
   describe("Campaign", function () {
     it("deploys a factory and a campaign", async function () {
