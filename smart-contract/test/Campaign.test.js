@@ -8,7 +8,6 @@ const compiledCampaign = require('../artifacts/contracts/Campaign.sol/Campaign.j
 const utils = ethers.utils;
 
 describe("Test Campaign contracts", function () {
-  // let Campaign;
   let CampaignFactory;
   let campaign;
   let campaignFactory;

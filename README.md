@@ -29,3 +29,15 @@ Tools, frameworks:
 13. npx tailwindcss init -p
 14. Change some file like instruction in above website
 15. npm install ethers
+
+Bugs:
+
+1. Not put private key in " " or ' ' in file .secret
+
+2. const Input=()=>{} will not run. True: const Input=()=>() 
+
+3. Run file scripts/deploy.js in other folder will have different result (bug). Use getcwd() to fix bug 'Cannot open file'
+
+4. Nested Route must use keyword index={true}
+
+5. When use tailwind, must add className, example <input type="text"> will not have outline. True: <input type="text" className="outline">

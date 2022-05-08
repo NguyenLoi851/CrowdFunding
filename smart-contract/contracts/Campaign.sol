@@ -4,9 +4,12 @@ pragma solidity ^0.8.0;
 contract CampaignFactory {
     Campaign[] public deployedCampaigns;
 
+    event NewCampaign(address from, uint256 minimum);
+
     function createCampaign(uint256 minimum) public {
         Campaign newCampaign = new Campaign(minimum, msg.sender);
         deployedCampaigns.push(newCampaign);
+        emit NewCampaign(msg.sender, minimum);
     }
 
     function getDeployedCampaigns() public view returns (Campaign[] memory) {
