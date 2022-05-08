@@ -7,7 +7,7 @@ import {
   CreateCampaign,
   CreateRequest,
   Requests,
-} from "../pages";
+} from "./pages";
 
 function App() {
   return (
