@@ -40,4 +40,4 @@ Bugs:
 
 4. Nested Route must use keyword index={true}
 
-5. When use tailwind, must add className, example <input type="text"> will not have outline. True: <input type="text" className="outline">
+5. When use tailwind, must add className, example < tag input type="text"> will not have outline. True: < tag input type="text" className="outline">
