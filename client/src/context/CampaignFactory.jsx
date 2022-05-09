@@ -18,15 +18,18 @@ export const CampaignFactoryProvider = ({children}) =>{
     
     const [currentAccount, setCurrentAccount] = useState("")
     const [campaigns, setCampaigns] = useState([])
-    const [formCampaign, setFormCampaign] = useState({minimumContribution:0})
+    const [formCampaign, setFormCampaign] = useState({minimumContribution:''})
     const [isLoadingNewCampaign, setIsLoadingNewCampaign] = useState(false)
 
     const getAllCampaigns = async()=>{
         try {
             if(ethereum){
                 const campaignFactoryContract = createCampaignFactoryContract();
-                const availableCampaigns = campaignFactoryContract.getDeployedCampaigns();
-                setCampaigns(availableCampaigns);
+                const availableCampaigns = await campaignFactoryContract.getDeployedCampaigns();
+                const structuredCampaigns = availableCampaigns.map((campaign)=>({
+                    address: campaign
+                }))
+                setCampaigns(structuredCampaigns);
             }else{
                 console.log("Ethereum is not present.")
             }
@@ -64,18 +67,23 @@ export const CampaignFactoryProvider = ({children}) =>{
             await newCampaign.wait()
             setIsLoadingNewCampaign(false);
             console.log(`Success - ${newCampaign.hash}`)
-            window.reload()
+            location.reload()
         } catch (error) {
             console.log(error)
         }
     }
     
-    
+    const handleChangeCampaign = (e, name) =>{
+        setFormCampaign((prevState)=>({...prevState, [name]: e.target.value}))
+    }
+
+
     const connectWallet = async() => {
         try {
             if(!ethereum) return alert("Please install metamask");
             const accounts = await ethereum.request({method: 'eth_requestAccounts'})
             setCurrentAccount(accounts[0])
+            location.reload()
         } catch (error) {
             console.log(error);
             throw new Error("No ethereum object.")
@@ -87,7 +95,7 @@ export const CampaignFactoryProvider = ({children}) =>{
     }, [])
 
     return (
-        <CampaignFactoryContext.Provider value={{currentAccount, connectWallet, createNewCampaign}}>
+        <CampaignFactoryContext.Provider value={{isLoadingNewCampaign, createNewCampaign, currentAccount, connectWallet, handleChangeCampaign, formCampaign, campaigns}}>
             {children}
         </CampaignFactoryContext.Provider>
     )

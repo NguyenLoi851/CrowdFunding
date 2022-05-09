@@ -4,6 +4,12 @@ const hre = require("hardhat");
 const campaign = require("../artifacts/contracts/Campaign.sol/Campaign.json");
 
 const main = async () => {
+  const [deployer] = await ethers.getSigners();
+
+  console.log("Deploying contracts with the account:", deployer.address);
+
+  console.log("Account balance:", (await deployer.getBalance()).toString());
+
 
   const CampaignFactory = await hre.ethers.getContractFactory("CampaignFactory");
   const campaignFactory = await CampaignFactory.deploy();
