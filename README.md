@@ -41,3 +41,8 @@ Bugs:
 4. Nested Route must use keyword index={true}
 
 5. When use tailwind, must add className, example < tag input type="text"> will not have outline. True: < tag input type="text" className="outline">
+
+Next Task:
+- In page Campaigns, add button to View Request
+- Change Campaign Balance to Ether format
+- Add Loader effect

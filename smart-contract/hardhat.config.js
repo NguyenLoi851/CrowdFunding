@@ -9,6 +9,10 @@ module.exports = {
     ropsten: {
       url: 'https://eth-ropsten.alchemyapi.io/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
       accounts: [privateKey]
+    },
+    rinkeby: {
+      url: 'https://eth-rinkeby.alchemyapi.io/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
+      accounts: [privateKey]
     }
   }
 };
