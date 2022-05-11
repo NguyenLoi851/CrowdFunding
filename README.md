@@ -3,7 +3,12 @@
 This project to create a crowdfunding website, where entrepreneurs can post their campaigns and consumers can invest.
 
 Tools, frameworks:
-1. Hardhat (for smart contract)
+1. Hardhat, Mocha, Chai, Alchemy, ethers.js (for smart contract)
+2. Vite (for React)
+3. Tailwindcss (for css)
+
+**DANGEROUS NOTE**
+1. I put private key of account to github to demo project, so after someday, someone will steal all money in this account (by tool).
 
 **Step to do this project**
 1. mkdir client && mkdir smart-contract
@@ -30,7 +35,7 @@ Tools, frameworks:
 14. Change some file like instruction in above website
 15. npm install ethers
 
-Bugs:
+**Bugs**
 
 1. Not put private key in " " or ' ' in file .secret
 
