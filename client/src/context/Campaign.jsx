@@ -9,7 +9,6 @@ export const CampaignContext = createContext();
 const { ethereum } = window;
 
 const createCampaignContract = (address) => {
-  // address = "\"".concat(address).concat("\"")
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   const campaignContract = new ethers.Contract(address, campaign.abi, signer);
@@ -19,7 +18,8 @@ const createCampaignContract = (address) => {
 export const CampaignProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   let minimumContribution;
-  const [contractAddress, setContractAddress] = useState("");
+  let balance;
+  const [campaignAddress, setCampaignAddress] = useState("");
   const [formContributeCampaign, setFormContributeCampaign] = useState({
     contribution: "",
   });
@@ -32,18 +32,50 @@ export const CampaignProvider = ({ children }) => {
     approversCount: 0,
     manager: "",
   });
+  const [formRequest, setFormRequest] = useState({
+    description: "",
+    value: "",
+    recipient: "",
+  });
+
+  const [isLoadingNewRequest, setIsLoadingNewRequest] = useState(false);
+
+  const createNewRequest = async () => {
+    try {
+      if (ethereum) {
+      } else {
+        console.log("Ethereum is not present.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getDetailInfo = async () => {
     try {
       if (ethereum) {
-        if (contractAddress == "") return;
-        const campaignContract = createCampaignContract(contractAddress);
+        // console.log(localStorage.getItem("currentCampaignAddress"));
+        // const tmp = localStorage.getItem("currentCampaignAddress");
+        // setCampaignAddress(tmp)
+        // console.log(typeof(tmp))
+        // console.log("Hello");
+        // console.log(campaignAddress);
+        console.log(campaignAddress)
+        if (campaignAddress == "") return;
+        const campaignContract = createCampaignContract(campaignAddress);
+        console.log(campaignAddress);
         const detailOfCampaign = await campaignContract.getSummary();
-        minimumContribution = parseInt(detailOfCampaign[0]).toString()
-        minimumContribution = ethers.BigNumber.from(minimumContribution)
-        minimumContribution = ethers.utils.formatEther(minimumContribution)
+        minimumContribution = parseInt(detailOfCampaign[0]).toString();
+        minimumContribution = ethers.BigNumber.from(minimumContribution);
+        minimumContribution = ethers.utils.formatEther(minimumContribution);
+
+        balance = parseInt(detailOfCampaign[1]).toString();
+        balance = ethers.BigNumber.from(balance);
+        balance = ethers.utils.formatEther(balance);
+
         const structuredDetailCampaign = {
           minimumContribution: minimumContribution,
-          balance: parseInt(detailOfCampaign[1]),
+          balance: balance,
           numRequests: parseInt(detailOfCampaign[2]),
           approversCount: parseInt(detailOfCampaign[3]),
           manager: detailOfCampaign[4],
@@ -62,6 +94,8 @@ export const CampaignProvider = ({ children }) => {
       if (!ethereum) return alert("Please install metamask");
       const accounts = await ethereum.request({ method: "eth_accounts" });
       if (accounts.length) {
+        // setCampaignAddress(localStorage.getItem("currentCampaignAddress"));
+
         setCurrentAccount(accounts[0]);
         getDetailInfo();
       } else {
@@ -84,19 +118,20 @@ export const CampaignProvider = ({ children }) => {
     try {
       if (!ethereum) return alert("Please install metamask");
       const { contribution } = formContributeCampaign;
-      const campaignContract = createCampaignContract(contractAddress);
+      const campaignContract = createCampaignContract(campaignAddress);
       const parseAmount = ethers.utils.parseEther(contribution);
       // console.log(parseAmount)
       const accounts = await ethereum.request({ method: "eth_accounts" });
       // const accounts = ethers.getSigner();
       console.log(accounts[0]);
-      await campaignContract.contribute({
+      const newContribution = await campaignContract.contribute({
         from: accounts[0],
         value: parseAmount,
       });
       setIsLoadingContributeCampaign(true);
       console.log(`Loading contribution`);
       // await campaignContract.contribute({from:accounts[0], value: parseAmount }).wait();
+      await newContribution.wait();
       setIsLoadingContributeCampaign(false);
       console.log(`Success contribution`);
       location.reload();
@@ -106,20 +141,24 @@ export const CampaignProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // setCampaignAddress(localStorage.getItem("currentCampaignAddress"));
+    // console.log("GG",campaignAddress)
     checkIfWalletIsConnected();
-  }, [contractAddress]);
+  }, []);
 
   return (
     <CampaignContext.Provider
       value={{
-        contractAddress,
+        campaignAddress,
         getDetailInfo,
         detailCampaign,
-        setContractAddress,
+        setCampaignAddress,
         handleChangeContributeCampaign,
         isLoadingContributeCampaign,
         formContributeCampaign,
         contributeCampaign,
+        isLoadingNewRequest,
+        formRequest,
       }}
     >
       {children}

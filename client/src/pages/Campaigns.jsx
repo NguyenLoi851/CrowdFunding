@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { CampaignContext } from "../context/Campaign";
 import { Loader } from "../components";
 import {ethers} from 'ethers'
+import { Link } from "react-router-dom";
 
 const Input = ({
   placeholder,
@@ -23,9 +24,9 @@ const Input = ({
 const Campaigns = () => {
   const {
     detailCampaign,
-    setContractAddress,
+    setCampaignAddress,
     getDetailInfo,
-    contractAddress,
+    campaignAddress,
     handleChangeContributeCampaign,
     isLoadingContributeCampaign,
     formContributeCampaign,
@@ -33,9 +34,11 @@ const Campaigns = () => {
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
+  localStorage.setItem("currentCampaignAddress",address)
+  console.log(address)
   useEffect(() => {
-    setContractAddress(address);
-  }, [address]);
+    setCampaignAddress(address);
+  }, []);
 
   const handleSubmitContributeCampaign = (e) => {
     const { contribution } = formContributeCampaign;
@@ -54,6 +57,7 @@ const Campaigns = () => {
         </div>
         <div>Pending Requests: {detailCampaign.numRequests}</div>
         <div>Contributors: {detailCampaign.approversCount}</div>
+        <div>Manager: {detailCampaign.manager}</div>
       </div>
 
       <div>
@@ -77,6 +81,11 @@ const Campaigns = () => {
           Contribute
         </button>
       )}
+      <button
+      className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
+      >
+        <Link to="requests">View Requests</Link>
+      </button>
     </div>
   );
 };
