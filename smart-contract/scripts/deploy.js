@@ -10,8 +10,9 @@ const main = async () => {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-
-  const CampaignFactory = await hre.ethers.getContractFactory("CampaignFactory");
+  const CampaignFactory = await hre.ethers.getContractFactory(
+    "CampaignFactory"
+  );
   const campaignFactory = await CampaignFactory.deploy();
 
   await campaignFactory.deployed();
@@ -20,15 +21,20 @@ const main = async () => {
 
   const data = {
     address: campaignFactory.address,
-    abi: JSON.parse(campaignFactory.interface.format('json'))
-  }
-  fs.writeFileSync('../client/src/utils/CampaignFactory.json', JSON.stringify(data));
+    abi: JSON.parse(campaignFactory.interface.format("json")),
+  };
+  fs.writeFileSync(
+    "../client/src/utils/CampaignFactory.json",
+    JSON.stringify(data)
+  );
   const campaignAbi = {
     abi: campaign.abi,
   };
-  fs.writeFileSync("../client/src/utils/Campaign.json", JSON.stringify(campaignAbi));
-
-}
+  fs.writeFileSync(
+    "../client/src/utils/Campaign.json",
+    JSON.stringify(campaignAbi)
+  );
+};
 
 const runMain = async () => {
   try {
@@ -38,6 +44,6 @@ const runMain = async () => {
     console.log(error);
     process.exit(1);
   }
-}
+};
 
 runMain();

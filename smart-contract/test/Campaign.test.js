@@ -3,7 +3,7 @@ const { ethers, waffle } = require("hardhat");
 const { describe } = require("mocha");
 const assert = require("assert");
 
-const compiledCampaign = require('../artifacts/contracts/Campaign.sol/Campaign.json');
+const compiledCampaign = require("../artifacts/contracts/Campaign.sol/Campaign.json");
 
 const utils = ethers.utils;
 
@@ -22,8 +22,11 @@ describe("Test Campaign contracts", function () {
     deployedCampaigns = await campaignFactory.getDeployedCampaigns();
     campaignAddress = deployedCampaigns[0];
 
-    campaign = await new ethers.Contract(campaignAddress, compiledCampaign.abi, owner);
-
+    campaign = await new ethers.Contract(
+      campaignAddress,
+      compiledCampaign.abi,
+      owner
+    );
   });
   describe("Campaign", function () {
     it("deploys a factory and a campaign", async function () {

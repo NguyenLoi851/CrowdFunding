@@ -39,13 +39,86 @@ export const CampaignProvider = ({ children }) => {
   });
 
   const [isLoadingNewRequest, setIsLoadingNewRequest] = useState(false);
+  const [request, setRequest] = useState({
+    description: "",
+    value: "",
+    recipient: "",
+    complete: false,
+    approvalCount: 0,
+  });
+
+  const acceptRequest = async () => {
+    // try {
+    //   if(ethereum){
+    //     if (campaignAddress == "") return;
+    //     const campaignContract = createCampaignContract(campaignAddress);
+    //     const accounts = await ethereum.request({ method: "eth_accounts" });
+    //     const acceptRequestOfContract = await campaignContract.approveRequest()
+    //   }else{
+    //     console.log("Ethereum is not present.")
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+  };
+
+  const [requests, setRequests] = useState([]);
+  const [requestCount, setRequestCount] = useState(0);
+  const [approversCount, setApproversCount] = useState(0);
 
   const createNewRequest = async () => {
     try {
       if (ethereum) {
         if (campaignAddress == "") return;
         const campaignContract = createCampaignContract(campaignAddress);
-        const newRequest = campaignContract.createRequest()
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        const parseAmount = ethers.utils.parseEther(formRequest.value);
+        const newRequest = await campaignContract.createRequest(
+          formRequest.description,
+          parseAmount,
+          formRequest.recipient,
+          { from: accounts[0] }
+        );
+        setIsLoadingNewRequest(true);
+        await newRequest.wait();
+        setIsLoadingNewRequest(false);
+        location.reload();
+      } else {
+        console.log("Ethereum is not present.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllRequests = async () => {
+    try {
+      if (ethereum) {
+        if (campaignAddress == "") return;
+        const campaignContract = createCampaignContract(campaignAddress);
+        const requestCountOfContract =
+          await campaignContract.getRequestsCount();
+        const approversCountOfContract =
+          await campaignContract.approversCount();
+        setRequestCount(parseInt(requestCountOfContract));
+        setApproversCount(parseInt(approversCountOfContract));
+        const availableRequests = await Promise.all(
+          Array(parseInt(requestCountOfContract))
+            .fill()
+            .map((element, index) => {
+              return campaignContract.requests(index);
+            })
+        );
+        const structuredRequests = availableRequests.map((request) => ({
+          description: request.description,
+          value: ethers.utils.formatEther(
+            ethers.BigNumber.from(parseInt(request.value).toString())
+          ),
+          recipient: request.recipient,
+          complete: request.complete,
+          approvalCount: parseInt(request.approvalCount),
+        }));
+        setRequests(structuredRequests);
       } else {
         console.log("Ethereum is not present.");
       }
@@ -100,6 +173,13 @@ export const CampaignProvider = ({ children }) => {
     }
   };
 
+  const handleChangeRequest = (e, name) => {
+    setFormRequest((prevState) => ({
+      ...prevState,
+      [name]: e.target.value,
+    }));
+  };
+
   const handleChangeContributeCampaign = (e, name) => {
     setFormContributeCampaign((prevState) => ({
       ...prevState,
@@ -113,17 +193,13 @@ export const CampaignProvider = ({ children }) => {
       const { contribution } = formContributeCampaign;
       const campaignContract = createCampaignContract(campaignAddress);
       const parseAmount = ethers.utils.parseEther(contribution);
-      // console.log(parseAmount)
       const accounts = await ethereum.request({ method: "eth_accounts" });
-      // const accounts = ethers.getSigner();
-      console.log(accounts[0]);
       const newContribution = await campaignContract.contribute({
         from: accounts[0],
         value: parseAmount,
       });
       setIsLoadingContributeCampaign(true);
       console.log(`Loading contribution`);
-      // await campaignContract.contribute({from:accounts[0], value: parseAmount }).wait();
       await newContribution.wait();
       setIsLoadingContributeCampaign(false);
       console.log(`Success contribution`);
@@ -150,6 +226,13 @@ export const CampaignProvider = ({ children }) => {
         contributeCampaign,
         isLoadingNewRequest,
         formRequest,
+        createNewRequest,
+        handleChangeRequest,
+        getAllRequests,
+        requests,
+        requestCount,
+        approversCount,
+        acceptRequest,
       }}
     >
       {children}

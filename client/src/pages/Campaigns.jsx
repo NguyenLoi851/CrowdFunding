@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router";
 import { CampaignContext } from "../context/Campaign";
 import { Loader } from "../components";
-import {ethers} from 'ethers'
+import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 
 const Input = ({
@@ -30,11 +30,10 @@ const Campaigns = () => {
     handleChangeContributeCampaign,
     isLoadingContributeCampaign,
     formContributeCampaign,
-    contributeCampaign
+    contributeCampaign,
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
-  console.log(address)
   useEffect(() => {
     setCampaignAddress(address);
   }, []);
@@ -80,9 +79,7 @@ const Campaigns = () => {
           Contribute
         </button>
       )}
-      <button
-      className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
-      >
+      <button className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]">
         <Link to="requests">View Requests</Link>
       </button>
     </div>

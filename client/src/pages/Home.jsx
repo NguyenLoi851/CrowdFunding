@@ -2,22 +2,18 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CampaignFactoryContext } from "../context/CampaignFactory";
 
-const CampaignCard = ({address})=>{
+const CampaignCard = ({ address }) => {
   return (
     <div>
-      <div>
-        Address:
-      </div>
+      <div>Address:</div>
       {address}
       <div>
-        <Link to={`campaigns/${address}`}>View detail campaign
-        </Link>
+        <Link to={`campaigns/${address}`}>View detail campaign</Link>
       </div>
-      <br/>
+      <br />
     </div>
-    
-  )
-}
+  );
+};
 
 const Home = () => {
   const { currentAccount, connectWallet, campaigns } = useContext(
@@ -34,7 +30,9 @@ const Home = () => {
             onClick={connectWallet}
             className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
           >
-            <p className="<div>Campaigns</div>text-white text-base font-semibold">Connect Wallet</p>
+            <p className="<div>Campaigns</div>text-white text-base font-semibold">
+              Connect Wallet
+            </p>
           </button>
         )}
         <p>{currentAccount}</p>

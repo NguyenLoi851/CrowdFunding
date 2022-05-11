@@ -10,6 +10,18 @@ Tools, frameworks:
 **DANGEROUS NOTE**
 1. I put private key of account to github to demo project, so after someday, someone will steal all money in this account (by tool).
 
+**Bugs**
+
+1. Not put private key in " " or ' ' in file .secret
+
+2. const Input=()=>{} will not run. True: const Input=()=>() 
+
+3. Run file scripts/deploy.js in other folder will have different result (bug). Use getcwd() to fix bug 'Cannot open file'
+
+4. Nested Route must use keyword index={true}
+
+5. When use tailwind, must add className, example < tag input type="text"> will not have outline. True: < tag input type="text" className="outline">
+
 **Step to do this project**
 1. mkdir client && mkdir smart-contract
 2. cd smart-contract
@@ -35,20 +47,8 @@ Tools, frameworks:
 14. Change some file like instruction in above website
 15. npm install ethers
 
-**Bugs**
-
-1. Not put private key in " " or ' ' in file .secret
-
-2. const Input=()=>{} will not run. True: const Input=()=>() 
-
-3. Run file scripts/deploy.js in other folder will have different result (bug). Use getcwd() to fix bug 'Cannot open file'
-
-4. Nested Route must use keyword index={true}
-
-5. When use tailwind, must add className, example < tag input type="text"> will not have outline. True: < tag input type="text" className="outline">
 
 Next Task:
-- Create request
-- Show request
 - Accept request
+- Finalise request
 - Css
