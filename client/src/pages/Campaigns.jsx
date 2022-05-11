@@ -34,7 +34,6 @@ const Campaigns = () => {
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
-  localStorage.setItem("currentCampaignAddress",address)
   console.log(address)
   useEffect(() => {
     setCampaignAddress(address);

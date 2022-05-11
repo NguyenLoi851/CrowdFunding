@@ -43,6 +43,9 @@ export const CampaignProvider = ({ children }) => {
   const createNewRequest = async () => {
     try {
       if (ethereum) {
+        if (campaignAddress == "") return;
+        const campaignContract = createCampaignContract(campaignAddress);
+        const newRequest = campaignContract.createRequest()
       } else {
         console.log("Ethereum is not present.");
       }
@@ -54,16 +57,8 @@ export const CampaignProvider = ({ children }) => {
   const getDetailInfo = async () => {
     try {
       if (ethereum) {
-        // console.log(localStorage.getItem("currentCampaignAddress"));
-        // const tmp = localStorage.getItem("currentCampaignAddress");
-        // setCampaignAddress(tmp)
-        // console.log(typeof(tmp))
-        // console.log("Hello");
-        // console.log(campaignAddress);
-        console.log(campaignAddress)
         if (campaignAddress == "") return;
         const campaignContract = createCampaignContract(campaignAddress);
-        console.log(campaignAddress);
         const detailOfCampaign = await campaignContract.getSummary();
         minimumContribution = parseInt(detailOfCampaign[0]).toString();
         minimumContribution = ethers.BigNumber.from(minimumContribution);
@@ -94,8 +89,6 @@ export const CampaignProvider = ({ children }) => {
       if (!ethereum) return alert("Please install metamask");
       const accounts = await ethereum.request({ method: "eth_accounts" });
       if (accounts.length) {
-        // setCampaignAddress(localStorage.getItem("currentCampaignAddress"));
-
         setCurrentAccount(accounts[0]);
         getDetailInfo();
       } else {
@@ -141,10 +134,8 @@ export const CampaignProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // setCampaignAddress(localStorage.getItem("currentCampaignAddress"));
-    // console.log("GG",campaignAddress)
     checkIfWalletIsConnected();
-  }, []);
+  }, [campaignAddress]);
 
   return (
     <CampaignContext.Provider

@@ -48,6 +48,6 @@ Tools, frameworks:
 5. When use tailwind, must add className, example < tag input type="text"> will not have outline. True: < tag input type="text" className="outline">
 
 Next Task:
-- In page Campaigns, add button to View Request
-- Change Campaign Balance to Ether format
-- Add Loader effect
+- Create request
+- Show request
+- Accept request
