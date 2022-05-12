@@ -49,6 +49,4 @@ Tools, frameworks:
 
 
 Next Task:
-- Accept request
-- Finalise request
 - Css

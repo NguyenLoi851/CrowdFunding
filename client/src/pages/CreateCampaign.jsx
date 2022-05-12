@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { CampaignFactoryContext } from "../context/CampaignFactory";
 import { Loader } from "../components";
+import { Navbar } from "../components";
+
 const Input = ({
   placeholder,
   name,
@@ -34,6 +36,7 @@ const CreateCampaign = () => {
 
   return (
     <div>
+      <Navbar />
       <div>Create a new campaign:</div>
       <div>
         Minimum Contribution
