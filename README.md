@@ -49,4 +49,8 @@ Tools, frameworks:
 
 
 Next Task:
-- Css
+- Add backend to store introduction about campaign (text + pictures)
+  - Short introduction (and 1 picture) in page Home
+  - Detail intro (and many pictures) in page Campaign
+  - Form in page CreateCampaign
+
