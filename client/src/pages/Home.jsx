@@ -2,14 +2,17 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CampaignFactoryContext } from "../context/CampaignFactory";
 
-
 const CampaignCard = ({ address }) => {
   return (
     <div className="text-2xl text-center py-10">
       <div>
-      <a href={`https://rinkeby.etherscan.io/address/${address}`} target="_blank" rel="noreferrer">
-            <p className="p-3">Campaign Address: {(address)}</p>
-          </a>
+        <a
+          href={`https://rinkeby.etherscan.io/address/${address}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <p className="p-3">Campaign Address: {address}</p>
+        </a>
       </div>
       <div>
         <Link to={`campaigns/${address}`}>View detail campaign</Link>
@@ -20,13 +23,10 @@ const CampaignCard = ({ address }) => {
 };
 
 const Home = () => {
-  const { currentAccount, campaigns } = useContext(
-    CampaignFactoryContext
-  );
+  const { currentAccount, campaigns } = useContext(CampaignFactoryContext);
 
   return (
     <div>
-
       <div>
         {currentAccount ? (
           <h3 className="text-5xl text-center my-2 pt-40 pb-10">
@@ -44,7 +44,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-
+      <div className="py-10"></div>
     </div>
   );
 };

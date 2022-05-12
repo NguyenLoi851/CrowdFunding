@@ -47,7 +47,7 @@ const Campaigns = () => {
 
   return (
     <div>
-      <div className="text-2xl text-center font-semibold p-20">
+      <div className="text-3xl text-center font-semibold p-20">
         Campaign Details
       </div>
       <div className="grid grid-rows-2 grid-flow-col gap-4 text-2xl p-5">

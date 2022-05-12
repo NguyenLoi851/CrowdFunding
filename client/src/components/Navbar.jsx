@@ -45,7 +45,7 @@ const Navbar = () => {
                     <p className="text-white text-2xl font-light text-sm">
                       {shortenAddress(currentAccount)}
                     </p>
-                    <p className="text-white text-3xl font-semibold text-lg mt-1">
+                    <p className="text-white text-3xl font-semibold mt-1">
                       Ethereum
                     </p>
                   </div>

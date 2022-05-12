@@ -10,7 +10,7 @@ const Input = ({ placeholder, name, type, handleChangeRequest }) => (
     placeholder={placeholder}
     type={type}
     // value = {minimumContribution}
-    className="outline rounded-lg p-2 m-5 w-1/4"
+    className="outline rounded-lg p-2 m-5 w-2/5"
     onChange={(e) => handleChangeRequest(e, name)}
   />
 );
@@ -45,7 +45,8 @@ const CreateRequest = () => {
       </div>
       <div className="text-2xl ml-20">
         <div>
-          Description : &nbsp;&nbsp;
+          Description : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Input
             type="text"
             name="description"
@@ -54,8 +55,7 @@ const CreateRequest = () => {
           />
         </div>
         <div>
-          Required Amount :
-          &nbsp;&nbsp;
+          Required Amount : &nbsp;&nbsp;
           <Input
             type="text"
             name="value"
@@ -64,8 +64,8 @@ const CreateRequest = () => {
           />
         </div>
         <div>
-          Recipient :
-          &nbsp;&nbsp;
+          Recipient : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Input
             type="text"
             name="recipient"
@@ -79,7 +79,7 @@ const CreateRequest = () => {
           <button
             type="button"
             onClick={handleSubmitRequest}
-            className="font-semibold justify-center items-center m-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#FACA15]"
+            className="font-semibold justify-center items-center my-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#FACA15]"
           >
             Create
           </button>

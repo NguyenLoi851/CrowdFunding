@@ -88,36 +88,43 @@ const Requests = () => {
         All Requests of Campaign: &nbsp;&nbsp;
         <Link to={`/campaigns/${address}`}>{shortenAddress(address)}</Link>
       </div>
-      <div className="text-center text-2xl px-20">
-        <table className="w-full text-left text-gray-700">
-          <thead className="uppercase bg-gray-50">
-            <tr>
-              <th className="px-6 py-6">Id</th>
-              <th>Description</th>
-              <th>Value (ether)</th>
-              <th>Recipient</th>
-              <th>Approval Count</th>
-              <th>Complete</th>
-              <th>Accept</th>
-              <th>Finalize</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((request, id) => (
-              <Request
-                key={id}
-                id={id}
-                request={request}
-                approversCount={approversCount}
-                acceptRequest={acceptRequest}
-                isLoadingAcceptRequest={isLoadingAcceptRequest}
-                finalizeRequest={finalizeRequest}
-                isLoadingFinalizeRequest={isLoadingFinalizeRequest}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {requests.length ? (
+        <div className="text-center text-2xl px-20">
+          <table className="w-full text-left text-gray-700">
+            <thead className="uppercase bg-gray-50">
+              <tr>
+                <th className="px-6 py-6">Id</th>
+                <th>Description</th>
+                <th>Value (ether)</th>
+                <th>Recipient</th>
+                <th>Approval Count</th>
+                <th>Complete</th>
+                <th>Accept</th>
+                <th>Finalize</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requests.map((request, id) => (
+                <Request
+                  key={id}
+                  id={id}
+                  request={request}
+                  approversCount={approversCount}
+                  acceptRequest={acceptRequest}
+                  isLoadingAcceptRequest={isLoadingAcceptRequest}
+                  finalizeRequest={finalizeRequest}
+                  isLoadingFinalizeRequest={isLoadingFinalizeRequest}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="text-center text-3xl">
+          Do not exist any request
+          </div>
+      )}
+
       <div>
         {(isLoadingAcceptRequest || isLoadingFinalizeRequest) && <Loader />}
       </div>

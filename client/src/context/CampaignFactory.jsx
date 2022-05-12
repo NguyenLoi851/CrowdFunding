@@ -39,6 +39,7 @@ export const CampaignFactoryProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+      alert(error.error.message.split(":")[1]);
     }
   };
 
@@ -54,6 +55,7 @@ export const CampaignFactoryProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+      alert(error.error.message.split(":")[1]);
       throw new Error("No ethereum object.");
     }
   };
@@ -76,6 +78,7 @@ export const CampaignFactoryProvider = ({ children }) => {
       location.reload();
     } catch (error) {
       console.log(error);
+      alert(error.error.message.split(":")[1]);
     }
   };
 
@@ -93,6 +96,7 @@ export const CampaignFactoryProvider = ({ children }) => {
       location.reload();
     } catch (error) {
       console.log(error);
+      alert(error.error.message.split(":")[1]);
       throw new Error("No ethereum object.");
     }
   };
