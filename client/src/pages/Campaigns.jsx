@@ -16,8 +16,7 @@ const Input = ({
   <input
     placeholder={placeholder}
     type={type}
-    // value = {minimumContribution}
-    className="outline"
+    className="outline rounded-lg p-2"
     onChange={(e) => handleChangeContributeCampaign(e, name)}
   />
 );
@@ -82,7 +81,7 @@ const Campaigns = () => {
             <Input
               type="text"
               name="contribution"
-              placeholder="Contribution (wei)"
+              placeholder="Contribution (ether)"
               handleChangeContributeCampaign={handleChangeContributeCampaign}
             />
           </div>
@@ -92,7 +91,7 @@ const Campaigns = () => {
             <button
               type="button"
               onClick={handleSubmitContributeCampaign}
-              className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
+              className="flex flex-row mt-10 justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]"
             >
               Contribute
             </button>
@@ -100,7 +99,7 @@ const Campaigns = () => {
         </div>
       </div>
       <div className="text-center text-3xl">
-        <button className="justify-center items-center my-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]">
+        <button className="justify-center items-center my-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
           <Link to="requests">View Requests</Link>
         </button>
       </div>

@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { CampaignFactoryContext } from "../context/CampaignFactory";
 import { Loader } from "../components";
 
-
 const Input = ({
   placeholder,
   name,
@@ -13,8 +12,7 @@ const Input = ({
   <input
     placeholder={placeholder}
     type={type}
-    // value = {minimumContribution}
-    className="outline"
+    className="outline rounded-lg p-2 w-1/4"
     onChange={(e) => handleChangeCampaign(e, name)}
   />
 );
@@ -35,30 +33,32 @@ const CreateCampaign = () => {
   };
 
   return (
-    <div>
-
-      <div>Create a new campaign:</div>
-      <div>
-        Minimum Contribution
-        <br />
+    <div className="text-center">
+      <div className="text-3xl font-semibold text-center p-10">
+        Create new campaign
+      </div>
+      <div className="text-2xl p-10">
+        Minimum Contribution: &nbsp;&nbsp;&nbsp;
         <Input
           type="text"
           name="minimumContribution"
-          placeholder="Contribution (ether)"
+          placeholder="Minimum Contribution (ether)"
           handleChangeCampaign={handleChangeCampaign}
         />
       </div>
-      {isLoadingNewCampaign ? (
-        <Loader />
-      ) : (
-        <button
-          type="button"
-          onClick={handleSubmitCampaign}
-          className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
-        >
-          Submit
-        </button>
-      )}
+      <div className="text-center">
+        {isLoadingNewCampaign ? (
+          <Loader />
+        ) : (
+          <button
+            type="button"
+            onClick={handleSubmitCampaign}
+            className="text-3xl font-bold justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#FACA15]"
+          >
+            Submit
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -2,49 +2,64 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { CampaignContext } from "../context/Campaign";
-import { Loader, Navbar, Footer } from "../components";
+import { Loader } from "../components";
+import { shortenAddress } from "../utils/shortenAddress";
 
 const Request = ({
   id,
   request,
   approversCount,
   acceptRequest,
-  isLoadingAcceptRequest,
   finalizeRequest,
-  isLoadingFinalizeRequest,
 }) => {
   return (
-    <div>
-      <div className="text-orange-600">Id: {id + 1}</div>
-      <div>Description: {request.description}</div>
-      <div>Value: {request.value}</div>
-      <div>Recipient: {request.recipient}</div>
-      <div>
-        Approval Count: {request.approvalCount} / {approversCount}
-      </div>
-      <div>Complete: {request.complete.toString()}</div>
+    <tr>
+      <td className="px-6 py-6">{id + 1}</td>
+      <td>{request.description}</td>
+      <td>{request.value}</td>
+      <td>
+        <a
+          href={`https://rinkeby.etherscan.io/address/${request.recipient}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {shortenAddress(request.recipient)}
+        </a>
+      </td>
+      <td>
+        {request.approvalCount} / {approversCount}
+      </td>
+      <td className="font-bold uppercase">{request.complete.toString()}</td>
+      <td>
+        <button
+          type="button"
+          className="outline p-2 bg-[#31C48D] hover:bg-[#76A9FA]"
+          onClick={(e) => acceptRequest(e, id)}
+        >
+          Accept
+        </button>
+      </td>
+      <td>
+        {/* {request.complete ? (
+          <button
+            type="button"
+            className="outline p-2 bg-[#F98080] hover:bg-[#F98080] cursor-auto"
+            // onClick={(e) => finalizeRequest(e, id)}
 
-      <button
-        type="button"
-        className="outline"
-        onClick={(e) => acceptRequest(e, id)}
-      >
-        Accept
-      </button>
-      {isLoadingAcceptRequest && <Loader />}
-      <br />
-      <br />
-      <button
-        type="button"
-        className="outline"
-        onClick={(e) => finalizeRequest(e, id)}
-      >
-        Finalize
-      </button>
-      {isLoadingFinalizeRequest && <Loader />}
-      <br />
-      <br />
-    </div>
+          >
+            Finalize
+          </button>
+        ) : ( */}
+        <button
+          type="button"
+          className="outline p-2 bg-[#FACA15] hover:bg-[#F98080]"
+          onClick={(e) => finalizeRequest(e, id)}
+        >
+          Finalize
+        </button>
+        {/* )} */}
+      </td>
+    </tr>
   );
 };
 
@@ -69,24 +84,48 @@ const Requests = () => {
   getAllRequests();
   return (
     <div>
-      <div>Requests</div>
-
-      <div>Pending Requests:</div>
-      {requests.map((request, id) => (
-        <Request
-          key={id}
-          id={id}
-          request={request}
-          approversCount={approversCount}
-          acceptRequest={acceptRequest}
-          isLoadingAcceptRequest={isLoadingAcceptRequest}
-          finalizeRequest={finalizeRequest}
-          isLoadingFinalizeRequest={isLoadingFinalizeRequest}
-        />
-      ))}
-      <button className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]">
-        <Link to="new">Add Request</Link>
-      </button>
+      <div className="text-center text-3xl p-20 font-semibold">
+        All Requests of Campaign: &nbsp;&nbsp;
+        <Link to={`/campaigns/${address}`}>{shortenAddress(address)}</Link>
+      </div>
+      <div className="text-center text-2xl px-20">
+        <table className="w-full text-left text-gray-700">
+          <thead className="uppercase bg-gray-50">
+            <tr>
+              <th className="px-6 py-6">Id</th>
+              <th>Description</th>
+              <th>Value (ether)</th>
+              <th>Recipient</th>
+              <th>Approval Count</th>
+              <th>Complete</th>
+              <th>Accept</th>
+              <th>Finalize</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requests.map((request, id) => (
+              <Request
+                key={id}
+                id={id}
+                request={request}
+                approversCount={approversCount}
+                acceptRequest={acceptRequest}
+                isLoadingAcceptRequest={isLoadingAcceptRequest}
+                finalizeRequest={finalizeRequest}
+                isLoadingFinalizeRequest={isLoadingFinalizeRequest}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        {(isLoadingAcceptRequest || isLoadingFinalizeRequest) && <Loader />}
+      </div>
+      <div className="text-center py-20">
+        <button className="text-3xl font-semibold text-center justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
+          <Link to="new">Add Request</Link>
+        </button>
+      </div>
     </div>
   );
 };
