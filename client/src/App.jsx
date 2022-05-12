@@ -8,10 +8,12 @@ import {
   CreateRequest,
   Requests,
 } from "./pages";
+import { Navbar, Footer } from "./components";
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/">
           <Route index={true} element={<Home />} />
@@ -27,6 +29,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
