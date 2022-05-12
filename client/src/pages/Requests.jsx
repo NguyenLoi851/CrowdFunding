@@ -2,8 +2,9 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { CampaignContext } from "../context/Campaign";
+import { Loader } from "../components";
 
-const Request = ({ id, request, approversCount, acceptRequest }) => {
+const Request = ({ id, request, approversCount, acceptRequest,isLoadingAcceptRequest, finalizeRequest,isLoadingFinalizeRequest }) => {
   return (
     <div>
       <div className="text-orange-600">Id: {id + 1}</div>
@@ -13,11 +14,18 @@ const Request = ({ id, request, approversCount, acceptRequest }) => {
       <div>
         Approval Count: {request.approvalCount} / {approversCount}
       </div>
-      <button type="button" className="outline" onClick={acceptRequest}>
+      <div>Complete: {request.complete.toString()}</div>
+      
+      <button type="button" className="outline" onClick={(e)=> acceptRequest(e,id)}>
         Accept
       </button>
+      {isLoadingAcceptRequest && (<Loader />)}
       <br />
       <br />
+      <button type="button" className="outline" onClick={(e)=>finalizeRequest(e, id)}>
+        Finalize
+      </button>
+      {isLoadingFinalizeRequest && (<Loader />)}
       {/* <button type="button" className='outline' onClick={rejectRequest}>
       Reject
     </button> */}
@@ -35,6 +43,9 @@ const Requests = () => {
     requests,
     approversCount,
     acceptRequest,
+    isLoadingAcceptRequest,
+    finalizeRequest,
+    isLoadingFinalizeRequest
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
@@ -55,6 +66,9 @@ const Requests = () => {
           request={request}
           approversCount={approversCount}
           acceptRequest={acceptRequest}
+          isLoadingAcceptRequest={isLoadingAcceptRequest}
+          finalizeRequest = {finalizeRequest}
+          isLoadingFinalizeRequest = {isLoadingFinalizeRequest}
         />
       ))}
       <button className="flex flex-row justify-center items-center my-5 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]">

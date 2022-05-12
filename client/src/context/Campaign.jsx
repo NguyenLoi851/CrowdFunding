@@ -39,27 +39,45 @@ export const CampaignProvider = ({ children }) => {
   });
 
   const [isLoadingNewRequest, setIsLoadingNewRequest] = useState(false);
-  const [request, setRequest] = useState({
-    description: "",
-    value: "",
-    recipient: "",
-    complete: false,
-    approvalCount: 0,
-  });
+  const [isLoadingAcceptRequest, setIsLoadingAcceptRequest] = useState(false)
+  const [isLoadingFinalizeRequest, setIsLoadingFinalizeRequest] = useState(false)
 
-  const acceptRequest = async () => {
-    // try {
-    //   if(ethereum){
-    //     if (campaignAddress == "") return;
-    //     const campaignContract = createCampaignContract(campaignAddress);
-    //     const accounts = await ethereum.request({ method: "eth_accounts" });
-    //     const acceptRequestOfContract = await campaignContract.approveRequest()
-    //   }else{
-    //     console.log("Ethereum is not present.")
-    //   }
-    // } catch (error) {
-    //   console.log(error)
-    // }
+  const finalizeRequest = async(e, id) => {
+    try {
+      if (ethereum) {
+        if(campaignAddress == "") return;
+        const campaignContract = createCampaignContract(campaignAddress);
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        const finalizeRequestOfContract = await campaignContract.finalizeRequest(ethers.BigNumber.from(id),{from: accounts[0]})
+        setIsLoadingFinalizeRequest(true)
+        await finalizeRequestOfContract.wait()
+        setIsLoadingFinalizeRequest(false)
+        location.reload()
+      } else {
+        console.log("Ethereum is not present.")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const acceptRequest = async (e, id) => {
+    try {
+      if(ethereum){
+        if (campaignAddress == "") return;
+        const campaignContract = createCampaignContract(campaignAddress);
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        const acceptRequestOfContract = await campaignContract.approveRequest(ethers.BigNumber.from(id),{from: accounts[0]})
+        setIsLoadingAcceptRequest(true);
+        await acceptRequestOfContract.wait()
+        setIsLoadingAcceptRequest(false);
+        location.reload();
+      }else{
+        console.log("Ethereum is not present.")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const [requests, setRequests] = useState([]);
@@ -233,6 +251,9 @@ export const CampaignProvider = ({ children }) => {
         requestCount,
         approversCount,
         acceptRequest,
+        isLoadingAcceptRequest,
+        finalizeRequest,
+        isLoadingFinalizeRequest
       }}
     >
       {children}
