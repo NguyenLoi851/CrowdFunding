@@ -1,0 +1,25 @@
+POST http://localhost:5000/api/campaigns
+Content-Type: application/json
+
+{
+    "introduction":"second"
+}
+
+###
+
+GET http://localhost:5000/api/campaigns
+Content-Type: aplication-application/json
+
+###
+
+PUT http://localhost:5000/api/campaigns/627fc49d5525ec5f1bd31c5d
+Content-Type: application/json
+
+{
+    "introduction":"third"
+}
+
+###
+
+DELETE http://localhost:5000/api/campaigns/627fc49d5525ec5f1bd31c5d
+Content-Type: application/json

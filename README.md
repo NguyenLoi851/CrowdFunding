@@ -66,6 +66,10 @@ Tools, frameworks:
 
 24.5. Copy url to connect this cluster
 
+25. mkdir models and create models
+26. mkdir controllers and create controllers
+27. mkdir routes and create routes
+
 Next Task:
 - Add backend to store introduction about campaign (text + pictures)
   - Short introduction (and 1 picture) in page Home
