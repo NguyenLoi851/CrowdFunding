@@ -46,7 +46,25 @@ Tools, frameworks:
 13. npx tailwindcss init -p
 14. Change some file like instruction in above website
 15. npm install ethers
+16. Code front-end
+17. mkdir server && cd server
+18. npm init -y
+19. npm i express jsonwebtoken mongoose dotenv argon2 cors (dotenv -> environment variable, argon2 -> hash user's password, cors -> front-end to with back-end)
+20. npm i --save-dev nodemon
+21. Change file package.json, field "scripts" add: "server":"nodemon index", after that when we type "npm run server", file index.js will automatically run after any changed.
+22. Install extension REST client to call api instead of using POSTMAN
+23. Create file index.js and connect to PORT 5000
+24. Set up mongodb
 
+24.1. Go to mongodb website
+
+24.2. Create new Prj
+
+24.3. Create new Cluster (create file .env)
+
+24.4. Allow accept from anywhere
+
+24.5. Copy url to connect this cluster
 
 Next Task:
 - Add backend to store introduction about campaign (text + pictures)
