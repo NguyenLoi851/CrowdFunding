@@ -55,6 +55,7 @@ export const CampaignProvider = ({ children }) => {
         const finalizeRequestOfContract =
           await campaignContract.finalizeRequest(ethers.BigNumber.from(id), {
             from: accounts[0],
+            gasLimit: ethers.BigNumber.from("30000000")
           });
         setIsLoadingFinalizeRequest(true);
         await finalizeRequestOfContract.wait();

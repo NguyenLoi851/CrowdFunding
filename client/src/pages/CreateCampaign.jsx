@@ -26,9 +26,9 @@ const CreateCampaign = () => {
   } = useContext(CampaignFactoryContext);
 
   const handleSubmitCampaign = (e) => {
-    const { minimumContribution } = formCampaign;
+    const { minimumContribution, introduction } = formCampaign;
     e.preventDefault();
-    if (!minimumContribution) return;
+    if (!minimumContribution || !introduction) return;
     createNewCampaign();
   };
 
@@ -43,6 +43,15 @@ const CreateCampaign = () => {
           type="text"
           name="minimumContribution"
           placeholder="Minimum Contribution (ether)"
+          handleChangeCampaign={handleChangeCampaign}
+        />
+      </div>
+      <div className="text-2xl p-10">
+        Introduction: &nbsp;&nbsp;&nbsp;
+        <Input
+          type="text"
+          name="introduction"
+          placeholder="Intro about your campaign"
           handleChangeCampaign={handleChangeCampaign}
         />
       </div>

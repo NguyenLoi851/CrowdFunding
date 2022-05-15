@@ -1,19 +1,23 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CampaignFactoryContext } from "../context/CampaignFactory";
+import { shortenAddress } from "../utils/shortenAddress";
 
-const CampaignCard = ({ address }) => {
+const CampaignCard = ({ address, introduction }) => {
   return (
     <div className="text-2xl text-center py-10">
+      <div>{introduction}</div>
+
       <div>
         <a
           href={`https://rinkeby.etherscan.io/address/${address}`}
           target="_blank"
           rel="noreferrer"
         >
-          <p className="p-3">Campaign Address: {address}</p>
+          <p className="p-3">Campaign Address: {shortenAddress(address)}</p>
         </a>
       </div>
+
       <div>
         <Link to={`campaigns/${address}`}>View detail campaign</Link>
       </div>
@@ -23,8 +27,10 @@ const CampaignCard = ({ address }) => {
 };
 
 const Home = () => {
-  const { currentAccount, campaigns } = useContext(CampaignFactoryContext);
-
+  const { currentAccount, campaigns, introductions } = useContext(
+    CampaignFactoryContext
+  );
+  console.log(introductions)
   return (
     <div>
       <div>
@@ -40,7 +46,11 @@ const Home = () => {
 
         <div>
           {campaigns.reverse().map((campaign, i) => (
-            <CampaignCard key={i} {...campaign} />
+            <CampaignCard
+              key={i}
+              {...campaign}
+              introduction={introductions[i]}
+            />
           ))}
         </div>
       </div>

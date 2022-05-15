@@ -14,6 +14,16 @@ module.exports = {
     }
   },
 
+  getCampaignById: async(req, res)=>{
+    try {
+        const campaign = await Campaign.findById(req.params.id)
+        res.json({success: true, campaign})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success: false, message: "Internal server error"})
+    }
+  },
+
   // create campaign
   createCampaign: async (req, res) => {
     const { introduction } = req.body;
@@ -30,7 +40,7 @@ module.exports = {
       res.json({
         success: true,
         message: "Campaign create successfully",
-        Campaign: newCampaign,
+        campaign: newCampaign,
       });
     } catch (error) {
       console.log(error);

@@ -4,6 +4,7 @@ const router = express.Router();
 const Campaign = require("../models/Campaign");
 const {
   getCampaigns,
+  getCampaignById,
   createCampaign,
   updateCampaign,
   deleteCampaign,
@@ -14,6 +15,13 @@ const {
 // @access public
 router.get("/", async(req, res)=>{
     await getCampaigns(req, res);
+})
+
+// @route GET BY ID api/campaigns
+// @desc Get campaign
+// @access public
+router.get("/:id", async(req, res)=>{
+    await getCampaignById(req, res)
 })
 
 // @route POST api/campaigns

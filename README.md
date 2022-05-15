@@ -69,6 +69,9 @@ Tools, frameworks:
 25. mkdir models and create models
 26. mkdir controllers and create controllers
 27. mkdir routes and create routes
+28. Create file request.http to test api
+
+29. Code for client to connect server
 
 Next Task:
 - Add backend to store introduction about campaign (text + pictures)

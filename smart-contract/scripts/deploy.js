@@ -13,7 +13,11 @@ const main = async () => {
   const CampaignFactory = await hre.ethers.getContractFactory(
     "CampaignFactory"
   );
-  const campaignFactory = await CampaignFactory.deploy();
+
+  const campaignFactory = await CampaignFactory.deploy({
+    gasPrice: ethers.BigNumber.from("20000000000"),
+    gasLimit: ethers.BigNumber.from("2100000"),
+  });
 
   await campaignFactory.deployed();
 

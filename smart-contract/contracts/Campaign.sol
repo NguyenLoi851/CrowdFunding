@@ -4,12 +4,12 @@ pragma solidity ^0.8.0;
 contract CampaignFactory {
     Campaign[] public deployedCampaigns;
 
-    event NewCampaign(address from, uint256 minimum);
+    event NewCampaign(address from, uint256 minimum, string _id);
 
-    function createCampaign(uint256 minimum) public {
-        Campaign newCampaign = new Campaign(minimum, msg.sender);
+    function createCampaign(uint256 minimum, string memory _id) public {
+        Campaign newCampaign = new Campaign(minimum, _id, msg.sender);
         deployedCampaigns.push(newCampaign);
-        emit NewCampaign(msg.sender, minimum);
+        emit NewCampaign(msg.sender, minimum, _id);
     }
 
     function getDeployedCampaigns() public view returns (Campaign[] memory) {
@@ -27,6 +27,7 @@ contract Campaign {
         mapping(address => bool) approvals;
     }
 
+    string public id; // id in database server
     address public manager;
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
@@ -35,9 +36,14 @@ contract Campaign {
     uint256 numRequests;
     mapping(uint256 => Request) public requests;
 
-    constructor(uint256 minimum, address creator) {
+    constructor(
+        uint256 minimum,
+        string memory _id,
+        address creator
+    ) {
         manager = creator;
         minimumContribution = minimum;
+        id = _id;
     }
 
     function contribute() public payable {
@@ -45,7 +51,7 @@ contract Campaign {
             msg.value >= minimumContribution,
             "A minimum contribution is required"
         );
-        if(approvers[msg.sender] == false){
+        if (approvers[msg.sender] == false) {
             approvers[msg.sender] = true;
             approversCount++;
         }

@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import { ethers } from "ethers";
-
+import axios from "axios";
 import campaignFactory from "../utils/CampaignFactory.json";
+import campaign from "../utils/Campaign.json";
+import { apiUrl } from "../utils/constants";
 
 export const CampaignFactoryContext = createContext();
 
@@ -21,8 +23,12 @@ const createCampaignFactoryContract = () => {
 export const CampaignFactoryProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [campaigns, setCampaigns] = useState([]);
-  const [formCampaign, setFormCampaign] = useState({ minimumContribution: "" });
+  const [formCampaign, setFormCampaign] = useState({
+    minimumContribution: "",
+    introduction: "",
+  });
   const [isLoadingNewCampaign, setIsLoadingNewCampaign] = useState(false);
+  const [introductions, setIntroductions] = useState([])
 
   const getAllCampaigns = async () => {
     try {
@@ -30,8 +36,27 @@ export const CampaignFactoryProvider = ({ children }) => {
         const campaignFactoryContract = createCampaignFactoryContract();
         const availableCampaigns =
           await campaignFactoryContract.getDeployedCampaigns();
-        const structuredCampaigns = availableCampaigns.map((campaign) => ({
+        for (let i = 0; i < availableCampaigns.length; i++) {
+          let provider = new ethers.providers.Web3Provider(ethereum);
+          let signer = provider.getSigner();
+          let campaignContract = new ethers.Contract(
+            availableCampaigns[i],
+            campaign.abi,
+            signer
+          );
+          let _id = await campaignContract.id();
+          try {
+            let response = await axios.get(`${apiUrl}/campaigns/${_id}`);
+            setIntroductions(prevState => [...prevState, response.data.campaign.introduction])
+          } catch (error) {
+            return error.response.data
+              ? error.response.data
+              : { success: false, message: "Server error" };
+          }
+        }
+        const structuredCampaigns = availableCampaigns.map((campaign,idx) => ({
           address: campaign,
+          introduction: introductions[idx]
         }));
         setCampaigns(structuredCampaigns);
       } else {
@@ -63,12 +88,28 @@ export const CampaignFactoryProvider = ({ children }) => {
   const createNewCampaign = async () => {
     try {
       if (!ethereum) return alert("Please install metamask");
-      const { minimumContribution } = formCampaign;
+      let _id = "";
+      const { minimumContribution, introduction } = formCampaign;
+      // Add to server
+      try {
+        const response = await axios.post(`${apiUrl}/campaigns`, {
+          introduction,
+        });
+        if (response.data.success) {
+          _id = response.data.campaign._id;
+        }
+      } catch (error) {
+        return error.response.data
+          ? error.response.data
+          : { success: false, message: "Server error" };
+      }
+
       const campaignFactoryContract = createCampaignFactoryContract();
       const parseAmount = ethers.utils.parseEther(minimumContribution);
 
       const newCampaign = await campaignFactoryContract.createCampaign(
-        parseAmount
+        parseAmount,
+        _id
       );
       setIsLoadingNewCampaign(true);
       console.log(`Loading - ${newCampaign.hash}`);
@@ -115,6 +156,7 @@ export const CampaignFactoryProvider = ({ children }) => {
         handleChangeCampaign,
         formCampaign,
         campaigns,
+        introductions
       }}
     >
       {children}
