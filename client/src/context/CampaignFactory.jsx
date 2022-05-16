@@ -106,9 +106,11 @@ export const CampaignFactoryProvider = ({ children }) => {
 
       const campaignFactoryContract = createCampaignFactoryContract();
       const parseAmount = ethers.utils.parseEther(minimumContribution);
-
+      console.log(typeof(_id));
+      console.log(typeof(ethers.utils.formatBytes32String(_id)));
       const newCampaign = await campaignFactoryContract.createCampaign(
         parseAmount,
+        // ethers.utils.formatBytes32String(_id)
         _id
       );
       setIsLoadingNewCampaign(true);

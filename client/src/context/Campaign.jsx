@@ -52,10 +52,17 @@ export const CampaignProvider = ({ children }) => {
         if (campaignAddress == "") return;
         const campaignContract = createCampaignContract(campaignAddress);
         const accounts = await ethereum.request({ method: "eth_accounts" });
+        // const provider = new ethers.providers.Web3Provider(ethereum);
+        // const nonceDebug = await provider.getTransactionCount("0x6182EEb1bBFC995dCC4E34E6614365D797e02998");
+        // console.log("Nonce", nonceDebug)
+        // const gasPriceDebug = await provider.getGasPrice()
+        // console.log("gasPrice", parseInt(gasPriceDebug))
+        console.log(accounts[0])
         const finalizeRequestOfContract =
           await campaignContract.finalizeRequest(ethers.BigNumber.from(id), {
             from: accounts[0],
-            gasLimit: ethers.BigNumber.from("30000000")
+            gasPrice: ethers.BigNumber.from("50000000000"),
+            gasLimit: ethers.BigNumber.from("5000000"),
           });
         setIsLoadingFinalizeRequest(true);
         await finalizeRequestOfContract.wait();

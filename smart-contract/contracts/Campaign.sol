@@ -28,6 +28,7 @@ contract Campaign {
     }
 
     string public id; // id in database server
+    // bytes24 public id;
     address public manager;
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
@@ -94,7 +95,7 @@ contract Campaign {
             request.complete == false,
             "This request has already been finalized"
         );
-        request.recipient.transfer(request.value);
+        // request.recipient.transfer(request.value);
         request.complete = true;
     }
 

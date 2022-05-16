@@ -78,4 +78,5 @@ Next Task:
   - Short introduction (and 1 picture) in page Home
   - Detail intro (and many pictures) in page Campaign
   - Form in page CreateCampaign
-
+(Done with short introduction)
+  - Custom number of approvers accept request
