@@ -54,9 +54,12 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        <div className="text-3xl sm:text-5xl mt-5 pt-40 pl-10">
-          Loi Crowdfunding Community
-        </div>
+        <Link to="/">
+          <div className="text-3xl sm:text-5xl mt-5 pt-40 pl-10 cursor-pointer">
+            Loi Crowdfunding Community
+          </div>
+        </Link>
+
         <div className="mt-40 pl-10">
           <button
             type="button"

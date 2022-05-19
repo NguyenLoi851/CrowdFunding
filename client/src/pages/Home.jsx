@@ -40,7 +40,7 @@ const Home = () => {
           </h3>
         ) : (
           <h3 className="text-5xl text-center my-2 pt-40 pb-10">
-            Connect your account to see the latest transactions
+            Connect your account to see the latest campaigns
           </h3>
         )}
 
