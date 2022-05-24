@@ -18,7 +18,7 @@ describe("Test Campaign contracts", function () {
     campaignFactory = await CampaignFactory.deploy();
     await campaignFactory.deployed();
 
-    await campaignFactory.connect(owner).createCampaign(5);
+    await campaignFactory.connect(owner).createCampaign(5,"123");
     deployedCampaigns = await campaignFactory.getDeployedCampaigns();
     campaignAddress = deployedCampaigns[0];
 

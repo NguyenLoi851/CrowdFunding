@@ -29,7 +29,7 @@ Tools, frameworks:
 4. npm install --save-dev hardhat @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
 5. npx hardhat
 6. Write smart contract
-7. Test smart contract (with compile)
+7. Test smart contract (with compile): npx hardhat test
 8. Write file scripts/deploy.js and create react app (by vite) to save address and abi after deploy contract
 
 8.1. npm init vite@latest (project name: ./, package name: optional, other: react)
