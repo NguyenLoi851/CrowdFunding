@@ -10,13 +10,20 @@ const Navbar = () => {
   const { currentAccount, connectWallet } = useContext(CampaignFactoryContext);
   return (
     <nav>
-      <div>
+      {/* <div>
         <Link to="/">
           <img src={landing} alt="logo" className="w-full cursor-pointer" />
         </Link>
+      </div> */}
+      <div className="bg-gradient-to-r from-purple-500 to-pink-500">
+        <Link to="/">
+          <div className="text-10xl sm:text-5xl mt-5 pt-10 pb-10 pl-10 cursor-pointer font-sans text-center text-slate-800">
+            Crowdfunding Community
+          </div>
+        </Link>
       </div>
 
-      <div className="flex flex-row">
+      <div className="flex flex-row justify-between ">
         <div>
           {!currentAccount ? (
             <div className="pt-40 pl-10 mt-2 px-100 item-center">
@@ -54,13 +61,8 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        <Link to="/">
-          <div className="text-3xl sm:text-5xl mt-5 pt-40 pl-10 cursor-pointer">
-            Loi Crowdfunding Community
-          </div>
-        </Link>
 
-        <div className="mt-40 pl-10">
+        <div className="mt-40 mr-20">
           <button
             type="button"
             className="text-5xl justify-center items-center bg-[#29f2e3] p-5 rounded-full cursor-pointer hover:bg-[#f97316]"
