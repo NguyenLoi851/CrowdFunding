@@ -12,7 +12,7 @@ const Input = ({
   <input
     placeholder={placeholder}
     type={type}
-    className="outline rounded-lg p-2 w-1/4"
+    className="outline rounded-lg p-2 w-1/2"
     onChange={(e) => handleChangeCampaign(e, name)}
   />
 );
@@ -26,26 +26,28 @@ const CreateCampaign = () => {
   } = useContext(CampaignFactoryContext);
 
   const handleSubmitCampaign = (e) => {
-    const { minimumContribution, introduction } = formCampaign;
+    const { minimumContribution, title, introduction, imageURL, acceptThreshold ,detailInfor} = formCampaign;
     e.preventDefault();
-    if (!minimumContribution || !introduction) return;
+    if (!minimumContribution || !title || !introduction || !imageURL || !acceptThreshold || !detailInfor) return;
     createNewCampaign();
   };
 
   return (
-    <div className="text-center">
+    <div className="text-left">
       <div className="text-3xl font-semibold text-center p-10">
         Create new campaign
       </div>
+      
       <div className="text-2xl p-10">
-        Minimum Contribution: &nbsp;&nbsp;&nbsp;
+        Title: &nbsp;&nbsp;&nbsp;
         <Input
           type="text"
-          name="minimumContribution"
-          placeholder="Minimum Contribution (ether)"
+          name="title"
+          placeholder="Title of your campaign"
           handleChangeCampaign={handleChangeCampaign}
         />
       </div>
+
       <div className="text-2xl p-10">
         Introduction: &nbsp;&nbsp;&nbsp;
         <Input
@@ -55,6 +57,47 @@ const CreateCampaign = () => {
           handleChangeCampaign={handleChangeCampaign}
         />
       </div>
+
+      <div className="text-2xl p-10">
+        Image's URL: &nbsp;&nbsp;&nbsp;
+        <Input
+          type="text"
+          name="imageURL"
+          placeholder="Image illustrates your campaign"
+          handleChangeCampaign={handleChangeCampaign}
+        />
+      </div>
+
+      <div className="text-2xl p-10">
+        Minimum Contribution: &nbsp;&nbsp;&nbsp;
+        <Input
+          type="text"
+          name="minimumContribution"
+          placeholder="Minimum Contribution"
+          handleChangeCampaign={handleChangeCampaign}
+        />
+      </div>
+
+      <div className="text-2xl p-10">
+        Accept requests threshold: &nbsp;&nbsp;&nbsp;
+        <Input
+          type="text"
+          name="acceptThreshold"
+          placeholder="Accept requests threshold (%)"
+          handleChangeCampaign={handleChangeCampaign}
+        />
+      </div>
+
+      <div className="text-2xl p-10">
+        Detail Information: &nbsp;&nbsp;&nbsp;
+        <Input
+          type="text"
+          name="detailInfor"
+          placeholder="Information about your campaign"
+          handleChangeCampaign={handleChangeCampaign}
+        />
+      </div>
+      
       <div className="text-center">
         {isLoadingNewCampaign ? (
           <Loader />

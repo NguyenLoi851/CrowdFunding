@@ -25,11 +25,16 @@ export const CampaignFactoryProvider = ({ children }) => {
   const [campaigns, setCampaigns] = useState([]);
   const [formCampaign, setFormCampaign] = useState({
     minimumContribution: "",
+    title: "",
     introduction: "",
+    imageURL: "",
+    acceptThreshold: "",
+    detailInfor: ""
   });
   const [isLoadingNewCampaign, setIsLoadingNewCampaign] = useState(false);
   const [introductions, setIntroductions] = useState([])
-
+  const [titles, setTitles] = useState([])
+  const [imageURLs, setImageURLs] = useState([])
   const getAllCampaigns = async () => {
     try {
       if (ethereum) {
@@ -48,6 +53,8 @@ export const CampaignFactoryProvider = ({ children }) => {
           try {
             let response = await axios.get(`${apiUrl}/campaigns/${_id}`);
             setIntroductions(prevState => [...prevState, response.data.campaign.introduction])
+            setTitles(prevState => [...prevState, response.data.campaign.title])
+            setImageURLs(prevState => [...prevState, response.data.campaign.imageURL])
           } catch (error) {
             return error.response.data
               ? error.response.data
@@ -89,11 +96,14 @@ export const CampaignFactoryProvider = ({ children }) => {
     try {
       if (!ethereum) return alert("Please install metamask");
       let _id = "";
-      const { minimumContribution, introduction } = formCampaign;
+      const {  minimumContribution, title, introduction, imageURL, acceptThreshold ,detailInfor } = formCampaign;
       // Add to server
       try {
         const response = await axios.post(`${apiUrl}/campaigns`, {
+          title,
           introduction,
+          detailInfor,
+          imageURL
         });
         if (response.data.success) {
           _id = response.data.campaign._id;
@@ -106,8 +116,8 @@ export const CampaignFactoryProvider = ({ children }) => {
 
       const campaignFactoryContract = createCampaignFactoryContract();
       const parseAmount = ethers.utils.parseEther(minimumContribution);
-      console.log(typeof(_id));
-      console.log(typeof(ethers.utils.formatBytes32String(_id)));
+      // console.log(typeof(_id));
+      // console.log(typeof(ethers.utils.formatBytes32String(_id)));
       const newCampaign = await campaignFactoryContract.createCampaign(
         parseAmount,
         // ethers.utils.formatBytes32String(_id)
@@ -158,7 +168,9 @@ export const CampaignFactoryProvider = ({ children }) => {
         handleChangeCampaign,
         formCampaign,
         campaigns,
-        introductions
+        introductions,
+        titles,
+        imageURLs
       }}
     >
       {children}

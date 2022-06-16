@@ -2,7 +2,10 @@ POST http://localhost:5000/api/campaigns
 Content-Type: application/json
 
 {
-    "introduction":"second"
+    "title": "second",
+    "introduction":"second",
+    "detailInfor": "second",
+    "imageURL": "second"
 }
 
 ###

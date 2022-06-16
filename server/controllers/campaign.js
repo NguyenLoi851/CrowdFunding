@@ -26,15 +26,18 @@ module.exports = {
 
   // create campaign
   createCampaign: async (req, res) => {
-    const { introduction } = req.body;
+    const { title, introduction, detailInfor, imageURL } = req.body;
 
-    if (!introduction)
+    if ( !title || !introduction || !detailInfor || !imageURL)
       return res
         .status(400)
-        .json({ success: false, message: "Introduction is required" });
+        .json({ success: false, message: "Title, Introduction, Detail information and image's URL is required" });
     try {
       const newCampaign = new Campaign({
+        title,
         introduction,
+        detailInfor,
+        imageURL
       });
       await newCampaign.save();
       res.json({
@@ -52,14 +55,18 @@ module.exports = {
 
   // update campaign
   updateCampaign: async (req, res) => {
-    const { introduction } = req.body;
-    if (!introduction)
+    const { title, introduction, detailInfor, imageURL } = req.body;
+
+    if ( !title || !introduction || !detailInfor || !imageURL)
       return res
         .status(400)
-        .json({ success: false, message: "Introduction is required" });
+        .json({ success: false, message: "Title, Introduction, Detail information and image's URL is required" });
     try {
       let updateCampaign = {
+        title,
         introduction,
+        detailInfor,
+        imageURL
       };
       const campaignUpdateCondition = { _id: req.params.id };
       updateCampaign = await Campaign.findOneAndUpdate(
