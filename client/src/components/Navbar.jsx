@@ -17,14 +17,16 @@ const Navbar = () => {
       </div> */}
       <div className="bg-gradient-to-r from-purple-500 to-pink-500">
         <Link to="/">
-          <div className="text-10xl sm:text-5xl mt-5 pt-10 pb-10 pl-10 cursor-pointer font-sans text-center text-slate-800">
-            Crowdfunding Community
+          <div className="text-10xl sm:text-5xl mt-5 pt-10 pb-20 pl-10 cursor-pointer font-sans text-center text-slate-800">
+            Crowdfunding
+            <br />
+             Community
           </div>
         </Link>
       </div>
 
       <div className="flex flex-row justify-between ">
-        <div>
+        <div className="ml-20 pl-20">
           {!currentAccount ? (
             <div className="pt-40 pl-10 mt-2 px-100 item-center">
               <button
@@ -62,7 +64,7 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="mt-40 mr-20">
+        <div className="mt-40 mr-40">
           <button
             type="button"
             className="text-5xl justify-center items-center bg-[#29f2e3] p-5 rounded-full cursor-pointer hover:bg-[#f97316]"

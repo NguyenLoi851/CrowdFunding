@@ -13,6 +13,10 @@ module.exports = {
     rinkeby: {
       url: 'https://eth-rinkeby.alchemyapi.io/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
       accounts: [privateKey]
+    },
+    mumbai: {
+      url: 'https://polygon-mumbai.g.alchemy.com/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
+      accounts: [privateKey]
     }
   }
 };

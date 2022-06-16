@@ -57,7 +57,7 @@ export const CampaignProvider = ({ children }) => {
         // console.log("Nonce", nonceDebug)
         // const gasPriceDebug = await provider.getGasPrice()
         // console.log("gasPrice", parseInt(gasPriceDebug))
-        console.log(accounts[0])
+        console.log(accounts[0]);
         const finalizeRequestOfContract =
           await campaignContract.finalizeRequest(ethers.BigNumber.from(id), {
             from: accounts[0],
@@ -73,7 +73,7 @@ export const CampaignProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.error.message.split(":")[1]);
+      alert(error.data.message.split(":")[1]);
     }
   };
 
@@ -96,7 +96,7 @@ export const CampaignProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.error.message.split(":")[1]);
+      alert(error.data.message.split(":")[1]);
     }
   };
 
@@ -122,7 +122,7 @@ export const CampaignProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.error.message.split(":")[1])
+      alert(error.data.message.split(":")[1]);
     }
   };
 
@@ -159,7 +159,7 @@ export const CampaignProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.error.message.split(":")[1])
+      alert(error.data.message.split(":")[1]);
     }
   };
 
@@ -190,7 +190,7 @@ export const CampaignProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.error.message.split(":")[1])
+      alert(error.data.message.split(":")[1]);
     }
   };
 
@@ -206,7 +206,7 @@ export const CampaignProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.error.message.split(":")[1])
+      alert(error.data.message.split(":")[1]);
       throw new Error("No ethereum object.");
     }
   };
@@ -243,8 +243,10 @@ export const CampaignProvider = ({ children }) => {
       console.log(`Success contribution`);
       location.reload();
     } catch (error) {
-      console.log(error);
-      alert(error.error.message.split(":")[1]);
+      // console.log(error);
+      console.log(error.data.message.split(":")[1]);
+      alert(error.data.message.split(":")[1]);
+      // alert(error.data.message.split(":")[1]);
     }
   };
 
