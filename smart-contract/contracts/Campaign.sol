@@ -6,8 +6,8 @@ contract CampaignFactory {
 
     event NewCampaign(address from, uint256 minimum, string _id);
 
-    function createCampaign(uint256 minimum, string memory _id) public {
-        Campaign newCampaign = new Campaign(minimum, _id, msg.sender);
+    function createCampaign(uint256 minimum, string memory _id, uint256 _acceptThreshold) public {
+        Campaign newCampaign = new Campaign(minimum, _id, _acceptThreshold, msg.sender);
         deployedCampaigns.push(newCampaign);
         emit NewCampaign(msg.sender, minimum, _id);
     }
@@ -24,6 +24,7 @@ contract Campaign {
         address payable recipient;
         bool complete;
         uint256 approvalCount;
+        uint256 approvalBalances;
         mapping(address => bool) approvals;
     }
 
@@ -33,18 +34,22 @@ contract Campaign {
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
     uint256 public approversCount;
+    uint256 public acceptThreshold;
+    mapping(address => uint256) public balance;
 
     uint256 numRequests;
     mapping(uint256 => Request) public requests;
 
     constructor(
-        uint256 minimum,
+        uint256 _minimum,
         string memory _id,
+        uint256 _acceptThreshold,
         address creator
     ) {
         manager = creator;
-        minimumContribution = minimum;
+        minimumContribution = _minimum;
         id = _id;
+        acceptThreshold = _acceptThreshold;
     }
 
     function contribute() public payable {
@@ -52,10 +57,11 @@ contract Campaign {
             msg.value >= minimumContribution,
             "A minimum contribution is required"
         );
-        if (approvers[msg.sender] == false) {
+        // if (approvers[msg.sender] == false) {
             approvers[msg.sender] = true;
             approversCount++;
-        }
+            balance[msg.sender] += msg.value;
+        // }
     }
 
     function createRequest(
@@ -69,6 +75,7 @@ contract Campaign {
         r.recipient = recipient;
         r.complete = false;
         r.approvalCount = 0;
+        r.approvalBalances = 0;
     }
 
     function approveRequest(uint256 index) public {
@@ -83,12 +90,14 @@ contract Campaign {
         );
         request.approvals[msg.sender] = true;
         request.approvalCount++;
+        request.approvalBalances += balance[msg.sender];
     }
 
     function finalizeRequest(uint256 index) public onlyManager {
         Request storage request = requests[index];
         require(
-            request.approvalCount > (approversCount / 2),
+            // request.approvalCount > (approversCount / 2),
+            request.approvalBalances * 100 / address(this).balance >= acceptThreshold,
             "This request needs more approvals before it can be finalized"
         );
         require(
@@ -107,7 +116,8 @@ contract Campaign {
             uint256,
             uint256,
             uint256,
-            address
+            address,
+            uint256
         )
     {
         return (
@@ -115,7 +125,8 @@ contract Campaign {
             address(this).balance,
             numRequests,
             approversCount,
-            manager
+            manager,
+            acceptThreshold
         );
     }
 

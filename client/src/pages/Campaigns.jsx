@@ -118,11 +118,16 @@ const Campaigns = () => {
           <br />
           <div>{introduction}</div>
           <br />
-          <div className="text-3xl">
-            <button className="justify-center items-center my-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
+          <div className="flex my-20">
+            <div className="text-3xl justify-between">
+            <button className="justify-center items-center bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
               <Link to="requests">View Requests</Link>
             </button>
           </div>
+          <div className="ml-20 mt-3">
+            Accept threshold: {detailCampaign.acceptThreshold}
+          </div></div>
+         
         </div>
       </div>
       <br />

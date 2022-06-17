@@ -121,7 +121,8 @@ export const CampaignFactoryProvider = ({ children }) => {
       const newCampaign = await campaignFactoryContract.createCampaign(
         parseAmount,
         // ethers.utils.formatBytes32String(_id)
-        _id
+        _id,
+        acceptThreshold
       );
       setIsLoadingNewCampaign(true);
       console.log(`Loading - ${newCampaign.hash}`);

@@ -21,6 +21,7 @@ export const CampaignProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   let minimumContribution;
   let balance;
+  let acceptThreshold;
   const [idCampaign, setIdCampaign] = useState("")
   const [title, setTitle] = useState("")
   const [introduction, setIntroduction] = useState("")
@@ -38,6 +39,7 @@ export const CampaignProvider = ({ children }) => {
     numRequests: 0,
     approversCount: 0,
     manager: "",
+    acceptThreshold: 0
   });
   const [formRequest, setFormRequest] = useState({
     description: "",
@@ -195,6 +197,10 @@ export const CampaignProvider = ({ children }) => {
         minimumContribution = ethers.BigNumber.from(minimumContribution);
         minimumContribution = ethers.utils.formatEther(minimumContribution);
 
+        // acceptThreshold = parseInt(detailOfCampaign[5]).toString();
+        acceptThreshold = detailOfCampaign[5].toString();
+        console.log("Accept Threshold", acceptThreshold);
+        console.log("Hello", detailOfCampaign)
         balance = parseInt(detailOfCampaign[1]).toString();
         balance = ethers.BigNumber.from(balance);
         balance = ethers.utils.formatEther(balance);
@@ -205,6 +211,7 @@ export const CampaignProvider = ({ children }) => {
           numRequests: parseInt(detailOfCampaign[2]),
           approversCount: parseInt(detailOfCampaign[3]),
           manager: detailOfCampaign[4],
+          acceptThreshold: acceptThreshold
         };
         setDetailCampaign(structuredDetailCampaign);
       } else {
@@ -279,6 +286,7 @@ export const CampaignProvider = ({ children }) => {
   return (
     <CampaignContext.Provider
       value={{
+        currentAccount,
         campaignAddress,
         getDetailInfo,
         detailCampaign,
@@ -303,7 +311,8 @@ export const CampaignProvider = ({ children }) => {
         introduction,
         title,
         detailInfor,
-        imageURL
+        imageURL,
+        acceptThreshold
       }}
     >
       {children}
