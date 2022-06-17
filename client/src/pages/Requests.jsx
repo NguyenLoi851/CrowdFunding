@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { CampaignContext } from "../context/Campaign";
 import { Loader } from "../components";
 import { shortenAddress } from "../utils/shortenAddress";
+import { ethers } from "ethers";
 
 const Request = ({
   id,
@@ -11,7 +12,13 @@ const Request = ({
   approversCount,
   acceptRequest,
   finalizeRequest,
+  totalBalances
 }) => {
+  let approvalBalancesTmp = request.approvalBalances
+  // approvalBalancesTmp = parseInt(detailOfCampaign[0]).toString();
+  approvalBalancesTmp = ethers.BigNumber.from(approvalBalancesTmp);
+  approvalBalancesTmp = ethers.utils.formatEther(approvalBalancesTmp);
+  const rate = approvalBalancesTmp * 100 / totalBalances ;
   return (
     <tr>
       <td className="px-6 py-6">{id + 1}</td>
@@ -26,8 +33,10 @@ const Request = ({
           {shortenAddress(request.recipient)}
         </a>
       </td>
-      <td>
-        {request.approvalCount} / {approversCount}
+      <td className="justify-center">
+        {/* {request.approvalCount} / {approversCount} */}
+        {/* {request.approvalBalances} / {totalBalances} */}
+        {rate}
       </td>
       <td className="font-bold uppercase">{request.complete.toString()}</td>
       <td>
@@ -74,6 +83,7 @@ const Requests = () => {
     isLoadingAcceptRequest,
     finalizeRequest,
     isLoadingFinalizeRequest,
+    totalBalances
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
@@ -97,7 +107,7 @@ const Requests = () => {
                 <th>Description</th>
                 <th>Value (ether)</th>
                 <th>Recipient</th>
-                <th>Approval Count</th>
+                <th>Approval Balance</th>
                 <th>Complete</th>
                 <th>Accept</th>
                 <th>Finalize</th>
@@ -114,6 +124,7 @@ const Requests = () => {
                   isLoadingAcceptRequest={isLoadingAcceptRequest}
                   finalizeRequest={finalizeRequest}
                   isLoadingFinalizeRequest={isLoadingFinalizeRequest}
+                  totalBalances={totalBalances}
                 />
               ))}
             </tbody>

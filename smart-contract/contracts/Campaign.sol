@@ -98,7 +98,7 @@ contract Campaign {
         require(
             // request.approvalCount > (approversCount / 2),
             request.approvalBalances * 100 / address(this).balance >= acceptThreshold,
-            "This request needs more approvals before it can be finalized"
+            "This request needs more approval balances before it can be finalized"
         );
         require(
             request.complete == false,

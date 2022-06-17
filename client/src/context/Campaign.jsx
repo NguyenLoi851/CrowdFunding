@@ -22,6 +22,8 @@ export const CampaignProvider = ({ children }) => {
   let minimumContribution;
   let balance;
   let acceptThreshold;
+  // let totalBalances;
+  const [totalBalances, setTotalBalances] = useState(0)
   const [idCampaign, setIdCampaign] = useState("")
   const [title, setTitle] = useState("")
   const [introduction, setIntroduction] = useState("")
@@ -161,6 +163,7 @@ export const CampaignProvider = ({ children }) => {
           recipient: request.recipient,
           complete: request.complete,
           approvalCount: parseInt(request.approvalCount),
+          approvalBalances: parseInt(request.approvalBalances)
         }));
         setRequests(structuredRequests);
       } else {
@@ -198,9 +201,15 @@ export const CampaignProvider = ({ children }) => {
         minimumContribution = ethers.utils.formatEther(minimumContribution);
 
         // acceptThreshold = parseInt(detailOfCampaign[5]).toString();
+        let totalBalancesTmp = parseInt(detailOfCampaign[1]).toString();
+        totalBalancesTmp = ethers.BigNumber.from(totalBalancesTmp);
+        totalBalancesTmp = ethers.utils.formatEther(totalBalancesTmp);
+        setTotalBalances(totalBalancesTmp);
+        // const totalBalances = 0;
+        console.log("Total balances",totalBalances);
         acceptThreshold = detailOfCampaign[5].toString();
-        console.log("Accept Threshold", acceptThreshold);
-        console.log("Hello", detailOfCampaign)
+        // console.log("Accept Threshold", acceptThreshold);
+        // console.log("Hello", detailOfCampaign)
         balance = parseInt(detailOfCampaign[1]).toString();
         balance = ethers.BigNumber.from(balance);
         balance = ethers.utils.formatEther(balance);
@@ -312,7 +321,8 @@ export const CampaignProvider = ({ children }) => {
         title,
         detailInfor,
         imageURL,
-        acceptThreshold
+        acceptThreshold,
+        totalBalances
       }}
     >
       {children}
