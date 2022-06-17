@@ -31,6 +31,11 @@ const Campaigns = () => {
     isLoadingContributeCampaign,
     formContributeCampaign,
     contributeCampaign,
+    idCampaign,
+    introduction,
+    title,
+    imageURL,
+    detailInfor,
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
@@ -98,11 +103,36 @@ const Campaigns = () => {
           )}
         </div>
       </div>
-      <div className="text-center text-3xl">
-        <button className="justify-center items-center my-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
-          <Link to="requests">View Requests</Link>
-        </button>
+      <br />
+      <div className="bg-yellow-600">.</div>
+      <br /><br /><br />
+
+      <div className="flex justify-between text-2xl">
+        <div className="ml-20 w-1/5">
+          <img src={imageURL} />
+        </div>
+        <div className="ml-20 mr-20 pr-20">
+          <br /><br />
+          <div>{title}</div>
+          <br />
+          <br />
+          <div>{introduction}</div>
+          <br />
+          <div className="text-3xl">
+            <button className="justify-center items-center my-20 bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
+              <Link to="requests">View Requests</Link>
+            </button>
+          </div>
+        </div>
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <div className="text-3xl ml-20 mr-20 text-justify leading-loose">{detailInfor}</div>
+      <br /><br /><br /><br /><br />
     </div>
   );
 };

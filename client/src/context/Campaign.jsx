@@ -1,6 +1,8 @@
 import React, { useContext, useState, createContext, useEffect } from "react";
 import { ethers } from "ethers";
 import { useParams } from "react-router";
+import { apiUrl } from "../utils/constants";
+import axios from "axios";
 
 import campaign from "../utils/Campaign.json";
 
@@ -19,6 +21,11 @@ export const CampaignProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   let minimumContribution;
   let balance;
+  const [idCampaign, setIdCampaign] = useState("")
+  const [title, setTitle] = useState("")
+  const [introduction, setIntroduction] = useState("")
+  const [detailInfor, setDetailInfor] = useState("")
+  const [imageURL, setImageURL] = useState("")
   const [campaignAddress, setCampaignAddress] = useState("");
   const [formContributeCampaign, setFormContributeCampaign] = useState({
     contribution: "",
@@ -168,6 +175,21 @@ export const CampaignProvider = ({ children }) => {
       if (ethereum) {
         if (campaignAddress == "") return;
         const campaignContract = createCampaignContract(campaignAddress);
+        const _id = await campaignContract.id()
+        setIdCampaign(_id)
+        try {
+          console.log(_id)
+          let response = await axios.get(`${apiUrl}/campaigns/${_id}`);
+          console.log(response)
+          setTitle(response.data.campaign.title)
+          setIntroduction(response.data.campaign.introduction)
+          setImageURL(response.data.campaign.imageURL)
+          setDetailInfor(response.data.campaign.detailInfor)
+        } catch (error) {
+          return error.response.data
+              ? error.response.data
+              : { success: false, message: "Server error" };
+        }
         const detailOfCampaign = await campaignContract.getSummary();
         minimumContribution = parseInt(detailOfCampaign[0]).toString();
         minimumContribution = ethers.BigNumber.from(minimumContribution);
@@ -277,6 +299,11 @@ export const CampaignProvider = ({ children }) => {
         isLoadingAcceptRequest,
         finalizeRequest,
         isLoadingFinalizeRequest,
+        idCampaign,
+        introduction,
+        title,
+        detailInfor,
+        imageURL
       }}
     >
       {children}
