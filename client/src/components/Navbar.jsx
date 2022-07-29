@@ -19,7 +19,7 @@ const Navbar = () => {
         <Link to="/">
           <div className="text-10xl sm:text-5xl mt-5 pt-10 pb-20 pl-10 cursor-pointer font-sans text-center text-slate-800">
             Crowdfunding
-            <br />
+            <br /><br />
              Community
           </div>
         </Link>

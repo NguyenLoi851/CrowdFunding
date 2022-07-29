@@ -19,16 +19,18 @@ const createCampaignContract = (address) => {
 
 export const CampaignProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [isAcceptedRequest, setIsAcceptedRequest] = useState(false);
+  const [error, setError] = useState("")
   let minimumContribution;
   let balance;
   let acceptThreshold;
   // let totalBalances;
-  const [totalBalances, setTotalBalances] = useState(0)
-  const [idCampaign, setIdCampaign] = useState("")
-  const [title, setTitle] = useState("")
-  const [introduction, setIntroduction] = useState("")
-  const [detailInfor, setDetailInfor] = useState("")
-  const [imageURL, setImageURL] = useState("")
+  const [totalBalances, setTotalBalances] = useState(0);
+  const [idCampaign, setIdCampaign] = useState("");
+  const [title, setTitle] = useState("");
+  const [introduction, setIntroduction] = useState("");
+  const [detailInfor, setDetailInfor] = useState("");
+  const [imageURL, setImageURL] = useState("");
   const [campaignAddress, setCampaignAddress] = useState("");
   const [formContributeCampaign, setFormContributeCampaign] = useState({
     contribution: "",
@@ -41,7 +43,7 @@ export const CampaignProvider = ({ children }) => {
     numRequests: 0,
     approversCount: 0,
     manager: "",
-    acceptThreshold: 0
+    acceptThreshold: 0,
   });
   const [formRequest, setFormRequest] = useState({
     description: "",
@@ -100,6 +102,7 @@ export const CampaignProvider = ({ children }) => {
         );
         setIsLoadingAcceptRequest(true);
         await acceptRequestOfContract.wait();
+        setIsAcceptedRequest(true);
         setIsLoadingAcceptRequest(false);
         location.reload();
       } else {
@@ -163,7 +166,7 @@ export const CampaignProvider = ({ children }) => {
           recipient: request.recipient,
           complete: request.complete,
           approvalCount: parseInt(request.approvalCount),
-          approvalBalances: parseInt(request.approvalBalances)
+          approvalBalances: parseInt(request.approvalBalances),
         }));
         setRequests(structuredRequests);
       } else {
@@ -180,20 +183,20 @@ export const CampaignProvider = ({ children }) => {
       if (ethereum) {
         if (campaignAddress == "") return;
         const campaignContract = createCampaignContract(campaignAddress);
-        const _id = await campaignContract.id()
-        setIdCampaign(_id)
+        const _id = await campaignContract.id();
+        setIdCampaign(_id);
         try {
-          console.log(_id)
+          // console.log(_id);
           let response = await axios.get(`${apiUrl}/campaigns/${_id}`);
-          console.log(response)
-          setTitle(response.data.campaign.title)
-          setIntroduction(response.data.campaign.introduction)
-          setImageURL(response.data.campaign.imageURL)
-          setDetailInfor(response.data.campaign.detailInfor)
+          // console.log(response);
+          setTitle(response.data.campaign.title);
+          setIntroduction(response.data.campaign.introduction);
+          setImageURL(response.data.campaign.imageURL);
+          setDetailInfor(response.data.campaign.detailInfor);
         } catch (error) {
           return error.response.data
-              ? error.response.data
-              : { success: false, message: "Server error" };
+            ? error.response.data
+            : { success: false, message: "Server error" };
         }
         const detailOfCampaign = await campaignContract.getSummary();
         minimumContribution = parseInt(detailOfCampaign[0]).toString();
@@ -206,7 +209,7 @@ export const CampaignProvider = ({ children }) => {
         totalBalancesTmp = ethers.utils.formatEther(totalBalancesTmp);
         setTotalBalances(totalBalancesTmp);
         // const totalBalances = 0;
-        console.log("Total balances",totalBalances);
+        // console.log("Total balances", totalBalances);
         acceptThreshold = detailOfCampaign[5].toString();
         // console.log("Accept Threshold", acceptThreshold);
         // console.log("Hello", detailOfCampaign)
@@ -220,7 +223,7 @@ export const CampaignProvider = ({ children }) => {
           numRequests: parseInt(detailOfCampaign[2]),
           approversCount: parseInt(detailOfCampaign[3]),
           manager: detailOfCampaign[4],
-          acceptThreshold: acceptThreshold
+          acceptThreshold: acceptThreshold,
         };
         setDetailCampaign(structuredDetailCampaign);
       } else {
@@ -239,6 +242,7 @@ export const CampaignProvider = ({ children }) => {
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
         getDetailInfo();
+        // getIsAcceptedRequest();
       } else {
         console.log("No account found");
       }
@@ -283,13 +287,31 @@ export const CampaignProvider = ({ children }) => {
     } catch (error) {
       // console.log(error);
       console.log(error.data.message.split(":")[1]);
+      // setError(error.data.message.split(":")[1]);
       alert(error.data.message.split(":")[1]);
       // alert(error.data.message.split(":")[1]);
     }
   };
 
+  const getIsAcceptedRequest = async () => {
+    try {
+      if(!ethereum) return alert("Please install metamask");
+      if(campaignAddress=="" || currentAccount=="") return;
+      const campaignContract = createCampaignContract(campaignAddress);
+      // console.log(campaignContract)
+      const accept = await campaignContract.approvers(currentAccount);
+      // console.log("Accept", accept)
+      setIsAcceptedRequest(accept);
+    } catch (error) {
+      // console.log(error.data.message.split(":")[1]);
+      // alert(error.data.message.split(":")[1]);
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
+    // getIsAcceptedRequest();
   }, [campaignAddress]);
 
   return (
@@ -322,7 +344,11 @@ export const CampaignProvider = ({ children }) => {
         detailInfor,
         imageURL,
         acceptThreshold,
-        totalBalances
+        totalBalances,
+        isAcceptedRequest,
+        getIsAcceptedRequest,
+        // error,
+        // setError
       }}
     >
       {children}

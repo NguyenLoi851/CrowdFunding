@@ -5,12 +5,22 @@ import { Loader } from "../components";
 import { Link } from "react-router-dom";
 import { shortenAddress } from "../utils/shortenAddress";
 
-const Input = ({ placeholder, name, type, handleChangeRequest }) => (
+const Input = ({placeholder, name, type, handleChangeRequest }) => (
   <input
     placeholder={placeholder}
     type={type}
     // value = {minimumContribution}
-    className="outline rounded-lg p-2 m-5 w-2/5"
+    className="outline rounded-lg p-2 m-5 w-2/5 h-50"
+    onChange={(e) => handleChangeRequest(e, name)}
+  />
+);
+
+const Textarea = ({placeholder, name, type, handleChangeRequest }) => (
+  <textarea
+    placeholder={placeholder}
+    type={type}
+    // value = {minimumContribution}
+    className="outline rounded-lg p-2 m-5 w-2/5 h-96"
     onChange={(e) => handleChangeRequest(e, name)}
   />
 );
@@ -38,16 +48,18 @@ const CreateRequest = () => {
   };
 
   return (
-    <div>
+    <div className="ml-40 mr-40">
       <div className="text-3xl font-semibold text-center p-20">
         Create New Request for Campaigns: &nbsp;
-        <Link to={`/campaigns/${address}`}>{shortenAddress(address)}</Link>
+        <Link className="underline" to={`/campaigns/${address}`}>{shortenAddress(address)}</Link>
       </div>
       <div className="text-2xl ml-20">
         <div>
-          Description : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div>
+            Description : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Input
+          </div>
+          <Textarea
             type="text"
             name="description"
             placeholder="Description about request"
@@ -55,17 +67,23 @@ const CreateRequest = () => {
           />
         </div>
         <div>
-          Required Amount : &nbsp;&nbsp;
+          <div>
+            Required Amount : &nbsp;&nbsp;
+          </div>
+          
           <Input
             type="text"
             name="value"
-            placeholder="Value (ether)"
+            placeholder="Value (MATIC)"
             handleChangeRequest={handleChangeRequest}
           />
         </div>
         <div>
-          Recipient : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div>
+            Recipient : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          
           <Input
             type="text"
             name="recipient"

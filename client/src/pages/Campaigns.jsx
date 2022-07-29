@@ -36,6 +36,8 @@ const Campaigns = () => {
     title,
     imageURL,
     detailInfor,
+    // error,
+    // setError
   } = useContext(CampaignContext);
   const { id } = useParams();
   const address = id;
@@ -48,10 +50,26 @@ const Campaigns = () => {
     e.preventDefault();
     if (!contribution) return;
     contributeCampaign();
+    // displayErrorModal();
   };
 
+  // const displayErrorModal = ()=>{
+  //   {error!="" && (
+  //     // alert(error)
+  //     <div>
+  //       Hello
+  //     </div>
+  //   )}
+  //   setError("");
+  // }
+  
+  // useEffect(() => {
+  //   displayErrorModal();
+  // }, [error])
+  
+
   return (
-    <div>
+    <div className="ml-40 mr-40">
       <div className="text-3xl text-center font-semibold p-20">
         Campaign Details
       </div>
@@ -104,32 +122,38 @@ const Campaigns = () => {
         </div>
       </div>
       <br />
-      <div className="bg-yellow-600">.</div>
+      <div className="bg-yellow-600 text-yellow-600">.</div>
       <br /><br /><br />
 
-      <div className="flex justify-between text-2xl">
-        <div className="ml-20 w-1/5">
+      {/* <div className="flex justify-between text-2xl"> */}
+      <div className="justify-between text-2xl ">
+        {/* <div className="ml-20 w-1/5">
           <img src={imageURL} />
-        </div>
+        </div> */}
         <div className="ml-20 mr-20 pr-20">
           <br /><br />
-          <div>{title}</div>
+          <div className="font-bold text-center">{title}</div>
           <br />
           <br />
-          <div>{introduction}</div>
+          <div className="text-center">{introduction}</div>
           <br />
-          <div className="flex my-20">
+          <div className="flex my-20 justify-center">
             <div className="text-3xl justify-between">
             <button className="justify-center items-center bg-[#29f2e3] p-3 rounded-full cursor-pointer hover:bg-[#eab308]">
               <Link to="requests">View Requests</Link>
             </button>
           </div>
           <div className="ml-20 mt-3">
-            Accept threshold: {detailCampaign.acceptThreshold}
+            Accept threshold: {detailCampaign.acceptThreshold} % (balances)
           </div></div>
          
         </div>
       </div>
+
+      <div className="flex justify-center">
+        <img className="w-2/3" src={imageURL}/>
+      </div>
+
       <br />
       <br />
       <br />

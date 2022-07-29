@@ -74,9 +74,10 @@ Tools, frameworks:
 29. Code for client to connect server
 
 Next Task:
-- Add backend to store introduction about campaign (text + pictures)
-  - Short introduction (and 1 picture) in page Home
-  - Detail intro (and many pictures) in page Campaign
-  - Form in page CreateCampaign
-(Done with short introduction)
-  - Custom number of approvers accept request
+done- Change tag a in front-end
+- Add time limited for requests
+done- Change size of front-end
+- Withdraw function in contract
+- Transfer in contribute function
+- Transfer in approveRequest function
+- Transfer when contribute

@@ -24,7 +24,7 @@ const CampaignCard = ({ address, introduction, title, imageURL }) => {
 
       <div className="ml-20 mr-20 ">
         <br />
-        <div>{title}</div>
+        <div className="font-bold">{title}</div>
         <br />
         <div>{introduction}</div>
         <br />
@@ -33,15 +33,15 @@ const CampaignCard = ({ address, introduction, title, imageURL }) => {
 
         <div>
           <a
-            href={`https://rinkeby.etherscan.io/address/${address}`}
+            href={`https://mumbai.polygonscan.com/address/${address}`}
             target="_blank"
             rel="noreferrer"
           >
-            <p className="p-0">Campaign Address: {shortenAddress(address)}</p>
+            <p className="p-0 hover:underline hover:underline-offset-8">Campaign Address: {shortenAddress(address)}</p>
           </a>
         </div>
         <br />
-        <div>
+        <div className="hover:underline hover:underline-offset-8 text-blue-600">
           <Link to={`campaigns/${address}`}>View detail campaign</Link>
         </div>
       </div>
@@ -56,9 +56,9 @@ const CampaignCard = ({ address, introduction, title, imageURL }) => {
 const Home = () => {
   const { currentAccount, campaigns, introductions, titles, imageURLs } =
     useContext(CampaignFactoryContext);
-  console.log(introductions);
+  // console.log(introductions);
   return (
-    <div>
+    <div className="ml-40 mr-40">
       <div>
         {currentAccount ? (
           <h3 className="text-5xl text-center my-2 pt-40 pb-10">

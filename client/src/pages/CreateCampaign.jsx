@@ -12,7 +12,22 @@ const Input = ({
   <input
     placeholder={placeholder}
     type={type}
-    className="outline rounded-lg p-2 w-1/2"
+    className="outline rounded-lg p-2 w-1/2 m-5"
+    onChange={(e) => handleChangeCampaign(e, name)}
+  />
+);
+
+const Textarea = ({
+  placeholder,
+  name,
+  type,
+  minimumContribution,
+  handleChangeCampaign,
+}) => (
+  <textarea
+    placeholder={placeholder}
+    type={type}
+    className="outline rounded-lg p-2 w-full m-5 h-96"
     onChange={(e) => handleChangeCampaign(e, name)}
   />
 );
@@ -33,14 +48,17 @@ const CreateCampaign = () => {
   };
 
   return (
-    <div className="text-left">
+    <div className="text-left mr-40 ml-40">
       <div className="text-3xl font-semibold text-center p-10">
         Create new campaign
       </div>
       
       <div className="text-2xl p-10">
-        Title: &nbsp;&nbsp;&nbsp;
-        <Input
+        <div>
+          Title: &nbsp;&nbsp;&nbsp;
+        </div>
+        
+        <Textarea
           type="text"
           name="title"
           placeholder="Title of your campaign"
@@ -49,8 +67,11 @@ const CreateCampaign = () => {
       </div>
 
       <div className="text-2xl p-10">
-        Introduction: &nbsp;&nbsp;&nbsp;
-        <Input
+        <div>
+          Introduction: &nbsp;&nbsp;&nbsp;
+        </div>
+        
+        <Textarea
           type="text"
           name="introduction"
           placeholder="Intro about your campaign"
@@ -59,8 +80,11 @@ const CreateCampaign = () => {
       </div>
 
       <div className="text-2xl p-10">
-        Image's URL: &nbsp;&nbsp;&nbsp;
-        <Input
+        <div>
+          Image's URL: &nbsp;&nbsp;&nbsp;
+        </div>
+        
+        <Textarea
           type="text"
           name="imageURL"
           placeholder="Image illustrates your campaign"
@@ -69,17 +93,23 @@ const CreateCampaign = () => {
       </div>
 
       <div className="text-2xl p-10">
-        Minimum Contribution: &nbsp;&nbsp;&nbsp;
+        <div>
+          Minimum Contribution: &nbsp;&nbsp;&nbsp;
+        </div>
+        
         <Input
           type="text"
           name="minimumContribution"
-          placeholder="Minimum Contribution"
+          placeholder="Minimum Contribution (MATIC)"
           handleChangeCampaign={handleChangeCampaign}
         />
       </div>
 
       <div className="text-2xl p-10">
-        Accept requests threshold: &nbsp;&nbsp;&nbsp;
+        <div>
+          Accept requests threshold: &nbsp;&nbsp;&nbsp;
+        </div>
+        
         <Input
           type="text"
           name="acceptThreshold"
@@ -89,8 +119,11 @@ const CreateCampaign = () => {
       </div>
 
       <div className="text-2xl p-10">
-        Detail Information: &nbsp;&nbsp;&nbsp;
-        <Input
+        <div>
+          Detail Information: &nbsp;&nbsp;&nbsp;
+        </div>
+        
+        <Textarea
           type="text"
           name="detailInfor"
           placeholder="Information about your campaign"

@@ -29,12 +29,13 @@ export const CampaignFactoryProvider = ({ children }) => {
     introduction: "",
     imageURL: "",
     acceptThreshold: "",
-    detailInfor: ""
+    detailInfor: "",
   });
   const [isLoadingNewCampaign, setIsLoadingNewCampaign] = useState(false);
-  const [introductions, setIntroductions] = useState([])
-  const [titles, setTitles] = useState([])
-  const [imageURLs, setImageURLs] = useState([])
+  const [introductions, setIntroductions] = useState([]);
+  const [titles, setTitles] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
+
   const getAllCampaigns = async () => {
     try {
       if (ethereum) {
@@ -52,18 +53,27 @@ export const CampaignFactoryProvider = ({ children }) => {
           let _id = await campaignContract.id();
           try {
             let response = await axios.get(`${apiUrl}/campaigns/${_id}`);
-            setIntroductions(prevState => [...prevState, response.data.campaign.introduction])
-            setTitles(prevState => [...prevState, response.data.campaign.title])
-            setImageURLs(prevState => [...prevState, response.data.campaign.imageURL])
+            setIntroductions((prevState) => [
+              ...prevState,
+              response.data.campaign.introduction,
+            ]);
+            setTitles((prevState) => [
+              ...prevState,
+              response.data.campaign.title,
+            ]);
+            setImageURLs((prevState) => [
+              ...prevState,
+              response.data.campaign.imageURL,
+            ]);
           } catch (error) {
             return error.response.data
               ? error.response.data
               : { success: false, message: "Server error" };
           }
         }
-        const structuredCampaigns = availableCampaigns.map((campaign,idx) => ({
+        const structuredCampaigns = availableCampaigns.map((campaign, idx) => ({
           address: campaign,
-          introduction: introductions[idx]
+          introduction: introductions[idx],
         }));
         setCampaigns(structuredCampaigns);
       } else {
@@ -96,14 +106,21 @@ export const CampaignFactoryProvider = ({ children }) => {
     try {
       if (!ethereum) return alert("Please install metamask");
       let _id = "";
-      const {  minimumContribution, title, introduction, imageURL, acceptThreshold ,detailInfor } = formCampaign;
+      const {
+        minimumContribution,
+        title,
+        introduction,
+        imageURL,
+        acceptThreshold,
+        detailInfor,
+      } = formCampaign;
       // Add to server
       try {
         const response = await axios.post(`${apiUrl}/campaigns`, {
           title,
           introduction,
           detailInfor,
-          imageURL
+          imageURL,
         });
         if (response.data.success) {
           _id = response.data.campaign._id;
@@ -171,7 +188,7 @@ export const CampaignFactoryProvider = ({ children }) => {
         campaigns,
         introductions,
         titles,
-        imageURLs
+        imageURLs,
       }}
     >
       {children}
