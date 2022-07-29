@@ -4,6 +4,7 @@ import axios from "axios";
 import campaignFactory from "../utils/CampaignFactory.json";
 import campaign from "../utils/Campaign.json";
 import { apiUrl } from "../utils/constants";
+import {campaignFactoryAddress} from "../utils/constants";
 
 export const CampaignFactoryContext = createContext();
 
@@ -13,7 +14,7 @@ const createCampaignFactoryContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   const campaignFactoryContract = new ethers.Contract(
-    campaignFactory.address,
+    campaignFactoryAddress,
     campaignFactory.abi,
     signer
   );

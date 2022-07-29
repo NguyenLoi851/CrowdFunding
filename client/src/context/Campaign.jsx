@@ -300,7 +300,7 @@ export const CampaignProvider = ({ children }) => {
       const campaignContract = createCampaignContract(campaignAddress);
       // console.log(campaignContract)
       const accept = await campaignContract.approvers(currentAccount);
-      // console.log("Accept", accept)
+      console.log("Accept", accept)
       setIsAcceptedRequest(accept);
     } catch (error) {
       // console.log(error.data.message.split(":")[1]);

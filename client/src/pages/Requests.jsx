@@ -62,7 +62,16 @@ const Request = ({
       <td className="">
         {/* {request.approvalCount} / {approversCount} */}
         {/* {request.approvalBalances} / {totalBalances} */}
-        {rate} %
+        {request.complete ?(
+          <span>
+            --
+          </span>
+        ):(
+          <span>
+            {rate} %
+          </span>
+        )}
+        
       </td>
       <td className="font-bold uppercase">{request.complete.toString()}</td>
       <td>
@@ -132,7 +141,7 @@ const Requests = () => {
   }, [address]);
 
   getAllRequests();
-  getIsAcceptedRequest();
+  // getIsAcceptedRequest();
   return (
     <div>
       <div className="text-center text-3xl p-20 font-semibold">

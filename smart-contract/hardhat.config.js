@@ -1,22 +1,28 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan");
 
-const fs = require("fs");
-const privateKey = fs.readFileSync('.secret').toString();
+// const fs = require("fs");
+// const privateKey = fs.readFileSync('.secret').toString();
+require("dotenv").config()
 
 module.exports = {
   solidity: "0.8.0",
   networks: {
     ropsten: {
-      url: 'https://eth-ropsten.alchemyapi.io/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
-      accounts: [privateKey]
+      url: process.env.PROVIDER_URL,
+      accounts: [process.env.PRIVATE_KEY]
     },
     rinkeby: {
-      url: 'https://eth-rinkeby.alchemyapi.io/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
-      accounts: [privateKey]
+      url: process.env.PROVIDER_URL,
+      accounts: [process.env.PRIVATE_KEY]
     },
     mumbai: {
-      url: 'https://polygon-mumbai.g.alchemy.com/v2/SWzV71Ya13rJJqXKdcU7PCZ_rEoN-enc',
-      accounts: [privateKey]
-    }
+      url: process.env.PROVIDER_URL,
+      chainId: 80001,
+      accounts: [process.env.PRIVATE_KEY]
+    },
+  },
+  etherscan: {
+    apiKey: process.env.MUMBAI_SCAN,
   }
 };

@@ -1,23 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract CampaignFactory {
-    Campaign[] public deployedCampaigns;
-
-    event NewCampaign(address from, uint256 minimum, string _id);
-
-    function createCampaign(uint256 minimum, string memory _id, uint256 _acceptThreshold) public {
-        Campaign newCampaign = new Campaign(minimum, _id, _acceptThreshold, msg.sender);
-        deployedCampaigns.push(newCampaign);
-        emit NewCampaign(msg.sender, minimum, _id);
-    }
-
-    function getDeployedCampaigns() public view returns (Campaign[] memory) {
-        return deployedCampaigns;
-    }
-}
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Campaign {
+
     struct Request {
         string description;
         uint256 value;
@@ -29,7 +17,6 @@ contract Campaign {
     }
 
     string public id; // id in database server
-    // bytes24 public id;
     address public manager;
     uint256 public minimumContribution;
     mapping(address => bool) public approvers;
@@ -52,16 +39,23 @@ contract Campaign {
         acceptThreshold = _acceptThreshold;
     }
 
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {}
+
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
+
+
     function contribute() public payable {
         require(
             msg.value >= minimumContribution,
             "A minimum contribution is required"
         );
-        // if (approvers[msg.sender] == false) {
-            approvers[msg.sender] = true;
-            approversCount++;
-            balance[msg.sender] += msg.value;
-        // }
+        approvers[msg.sender] = true;
+        approversCount++;
+        balance[msg.sender] += msg.value;
+        (bool sent, ) = payable(address(this)).call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
     }
 
     function createRequest(
@@ -105,6 +99,8 @@ contract Campaign {
             "This request has already been finalized"
         );
         // request.recipient.transfer(request.value);
+        (bool sent, ) = payable(request.recipient).call{value: request.value}("");
+        require(sent, "Failed to send Ether");
         request.complete = true;
     }
 

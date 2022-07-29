@@ -78,6 +78,5 @@ done- Change tag a in front-end
 - Add time limited for requests
 done- Change size of front-end
 - Withdraw function in contract
-- Transfer in contribute function
-- Transfer in approveRequest function
-- Transfer when contribute
+done- Transfer in contribute function
+done- Transfer in finalizeRequest function

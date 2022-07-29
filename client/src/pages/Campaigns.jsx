@@ -143,7 +143,7 @@ const Campaigns = () => {
               <Link to="requests">View Requests</Link>
             </button>
           </div>
-          <div className="ml-20 mt-3">
+          <div className="ml-20 mt-3 font-bold">
             Accept threshold: {detailCampaign.acceptThreshold} % (balances)
           </div></div>
          
